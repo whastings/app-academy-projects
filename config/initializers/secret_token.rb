@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-PhotoTagger::Application.config.secret_token = '8cf319f280ecd7357480d941cb7550d53ca079417959533c3a08bbe58e5f04bc6666434228a7d4a059e2eefacb03761faed743baa5c2962f76ebed914cecfed6'
+PhotoTagger::Application.config.secret_token = 'bbbae69aac7377caa5c88f66e314b9f47e1e3568e828c3c330ff7029823173be70e9609d3243082db4c0dad5e8590ad1749febea90de6953b327b518f828fa19'
