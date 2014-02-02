@@ -36,3 +36,28 @@ def explore_words(source, dictionary)
   end
   all_reachable_words
 end
+
+def find_chain(source, target, dictionary)
+  words_to_expand = [source]
+  candidate_words = words_of_length(source, dictionary)
+  parents = {}
+  until words_to_expand.empty?
+    word = words_to_expand.shift
+    similar_words = adjacent_words(word, candidate_words)
+    similar_words.each { |similar_word| parents[similar_word] = word }
+    candidate_words.subtract(similar_words)
+    words_to_expand.concat(similar_words)
+    break if similar_words.include?(target)
+  end
+  build_path_from_breadcrumbs(source, target, parents)
+end
+
+def build_path_from_breadcrumbs(source, target, parents)
+  child, path = target, [target]
+  loop do
+    break if child == source
+    path << parents[child]
+    child = parents[child]
+  end
+  path.reverse
+end
