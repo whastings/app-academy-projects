@@ -61,3 +61,12 @@ def build_path_from_breadcrumbs(source, target, parents)
   end
   path.reverse
 end
+
+if __FILE__ == $PROGRAM_NAME
+  dictionary_file, source, target = ARGV[0], ARGV[1], ARGV[2]
+  if [dictionary_file, source, target].compact.length < 3
+    raise "Not enough arguments supplied!"
+  end
+  dictionary = File.read(dictionary_file).split("\n")
+  p find_chain(source, target, dictionary)
+end
