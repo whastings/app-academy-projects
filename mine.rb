@@ -56,23 +56,34 @@ end
 class Minesweeper
   attr_accessor :board
 
-  def initialize
-    @board = Array.new(9) { |ind| Array.new(9) { |sec_ind| Tile.new(ind, sec_ind) } }
+  def initialize(start_board = nil)
+    if start_board.nil?
+      @board = Array.new(9) { |ind| Array.new(9) { |sec_ind| Tile.new(ind, sec_ind) } }
+    else
+      @board = start_board
+    end
     puts_bombs
   end
 
   def puts_bombs
     bombs = []
 
-    until bombs.length == 10
-      row = (0..8).to_a.sample
-      column = (0..8).to_a.sample
-      unless bombs.include? [row,column]
-        @board[row][column].bomb = true
-        bombs << [row,column]
-      end
-    end
+    @board.flatten.sample(10).each{ |tile|tile.bomb = true }
 
+    # until bombs.length == 10
+  #     row = (0..8).to_a.sample
+  #     column = (0..8).to_a.sample
+  #     unless bombs.include? [row,column]
+  #       @board[row][column].bomb = true
+  #       bombs << [row,column]
+  #     end
+  #   end
+
+  end
+
+  def save_board
+    puts "Name of file?"
+    File.open("#{gets.chomp}.txt", "w") { |f| f.puts @board.to_yaml }
   end
 
   def expand(position)
@@ -87,7 +98,8 @@ class Minesweeper
   def flag(position)
     x, y = position
     tile = @board[x][y]
-    tile.flag ? tile.flag = false : tile.flag = true
+    # tile.flag ? tile.flag = false : tile.flag = true
+    tile.flag = !tile.flag
   end
 
   def display
@@ -117,15 +129,21 @@ class Minesweeper
       position = user_input(gets.chomp)
       if position.first =~ /f/i
         flag(position.drop(1))
+      elsif position.first =~ /q/
+        puts "You Loser!"
+        return
+      elsif position.first =~ /s/
+        save_board
       else
         unless expand(position)
           show_all_bombs
           display
           puts "Game over!"
-          break
+          return
         end
       end
     end
+    puts "You win!"
   end
 
   def show_all_bombs
