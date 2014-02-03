@@ -1,6 +1,6 @@
 class Tile
 
-  attr_accessor :pos, :bomb
+  attr_accessor :pos, :bomb, :revealed
 
   def initialize(x, y)
     @pos = [x, y]
@@ -11,7 +11,11 @@ class Tile
 
   def reveal(board)
     @revealed = true
-
+    bombs_nearby = neighbor_bomb_count(board)
+    return true if bombs_nearby > 0
+    near_neighbors = neighbors(board)
+    near_neighbors.reject! { |neighbor| neighbor.revealed }
+    near_neighbors.each { |neighbor| neighbor.reveal(board) }
   end
 
   def neighbors(board)
@@ -25,8 +29,6 @@ class Tile
     neighbor_tiles
   end
 
-  end
-
   def neighbor_bomb_count(board)
     count = 0
     neighbors(board).each do |neighbor|
@@ -38,7 +40,7 @@ class Tile
   def status(board)
     return "F" if @flag
 
-    if @revealed = false
+    if @revealed == false
       return "*"
     else
       return "$" if @bomb
@@ -52,11 +54,10 @@ end
 
 
 class Minesweeper
-  attr_accessor :board, :revealed
+  attr_accessor :board
 
   def initialize
     @board = Array.new(9) { |ind| Array.new(9) { |sec_ind| Tile.new(ind, sec_ind) } }
-    @revealed = []
     puts_bombs
   end
 
@@ -76,15 +77,27 @@ class Minesweeper
 
   def expand(position)
     x, y = position
-    return false if @board[x][y]
+    return false if @board[x][y].bomb
 
     @board[x][y].reveal(@board)
 
-
+    true
   end
 
   def display
-    "#{board[0][1].status}
+    printout = @board.flatten.map do |tile|
+      tile.status(self.board)
+    end
+    count = 0
+    printout.each do |char|
+      print "#{char} "
+      count += 1
+      if count == 9
+        puts
+        count = 0
+      end
+    end
+    nil
   end
 
 end
