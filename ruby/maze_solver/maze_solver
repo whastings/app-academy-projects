@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+program_directory = File.dirname(__FILE__)
+$LOAD_PATH << "#{program_directory}/lib"
+
+require "point"
+require "maze"
+require "a_star_solver"
+require "text_maze_parser"
+
+maze_string = File.read("#{program_directory}/test-maze.txt")
+parser = TextMazeParser.new(maze_string)
+maze = Maze.new(*parser.parse)
+solver = AStarSolver.new(maze)
+solver.solve
+parser.print_maze(maze)
