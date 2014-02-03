@@ -14,6 +14,7 @@ class Tile
   end
 
   def reveal(board)
+    return if @flag
     @revealed = true
     bombs_nearby = neighbor_bomb_count(board)
     return true if bombs_nearby > 0
@@ -58,7 +59,7 @@ end
 
 
 class Minesweeper
-  attr_accessor :board
+  attr_accessor :board, :time
 
   def initialize(start_board = nil)
     if start_board.nil?
@@ -66,8 +67,9 @@ class Minesweeper
         Array.new(9) { |sec_ind| Tile.new(ind, sec_ind) }
       end
       puts_bombs
+      @time = 0
     else
-      @board = YAML.load(File.read("#{start_board}.txt"))
+      load_board(start_board)
     end
   end
 
@@ -89,12 +91,15 @@ class Minesweeper
 
   def save_board
     puts "Name of file?"
-    File.open("#{gets.chomp}.txt", "w") { |f| f.puts @board.to_yaml }
+    File.open("#{gets.chomp}.txt", "w") { |f| f.puts self.to_yaml }
   end
 
   def expand(position)
     x, y = position
-    return false if @board[x][y].bomb
+    if @board[x][y].bomb
+      lost
+      return false
+    end
 
     @board[x][y].reveal(@board)
 
@@ -113,7 +118,13 @@ class Minesweeper
       tile.status(self.board)
     end
     count = 0
+    another_count = 0
+    puts "  0 1 2 3 4 5 6 7 8"
     printout.each do |char|
+      if count == 0
+        print "#{another_count} "
+        another_count += 1
+      end
       print "#{char} "
       count += 1
       if count == 9
@@ -125,44 +136,65 @@ class Minesweeper
   end
 
   def user_input(input)
-    input.split(",").map { |char| char =~ /\d/ ? char.to_i : char }
+    position = input.split(",").map { |char| char =~ /\d/ ? char.to_i : char.downcase }
+    case position.first
+    when "f"
+      flag(position.drop(1))
+    when "q"
+      puts "You Loser!"
+      return false
+    when "s"
+      @time += (Time.now - @start_time).to_f
+      save_board
+    when "l"
+      puts "Load file?"
+      load_board(gets.chomp)
+    else
+      return expand(position)
+    end
+    true
   end
 
-  def load_board
-    puts "Load file?"
-    file_content = File.read("#{gets.chomp}.txt")
-    @board = YAML.load(file_content)
+  def load_board(filename)
+    saved_game = YAML.load(File.read("#{filename}.txt"))
+    @board = saved_game.board
+    @time = saved_game.time
+  end
+
+  def won?
+    tiles = @board.flatten.reject { |tile| tile.bomb }
+    tiles.all?(&:revealed)
+  end
+
+  def lost
+    show_all_bombs
+    display
+    puts "Game over!"
   end
 
   def play
+    @start_time = Time.now
     while true
       display
       puts "Enter your choice (i.e. 1,1) or flag using F,1,2"
       puts "q for quit, l for load, s for save:"
-      position = user_input(gets.chomp)
-      if position.first =~ /f/i
-        flag(position.drop(1))
-      elsif position.first =~ /q/i
-        puts "You Loser!"
-        return
-      elsif position.first =~ /s/i
-        save_board
-      elsif position.first =~ /l/i
-        load_board
-      else
-        unless expand(position)
-          show_all_bombs
-          display
-          puts "Game over!"
-          return
-        end
+      break unless user_input(gets.chomp)
+      if won?
+        puts "You win!"
+        break
       end
     end
-    puts "You win!"
+    @time += (Time.now - @start_time).to_f
+    puts "Time taken: #{@time}"
   end
 
   def show_all_bombs
     @board.flatten.each { |tile| tile.revealed = true if tile.bomb }
   end
 
+end
+
+if __FILE__ == $PROGRAM_NAME
+  game = Minesweeper.new(ARGV.shift)
+  game.play
 end
