@@ -100,4 +100,24 @@ class Minesweeper
     nil
   end
 
+  def user_input(input)
+    input.split(",").map { |char| char =~ /\d/ ? char.to_i : char }
+  end
+
+  def play
+    while true
+      display
+      puts "Enter your choice (i.e. 1,1) or flag using F,1,2:"
+      position = user_input(gets.chomp)
+      if position.first == "F"
+
+      else
+        unless expand(position)
+          puts "Game over!"
+          break
+        end
+      end
+    end
+  end
+
 end
