@@ -4,7 +4,7 @@
 # TODO: Would be great to be able to beat `make_change(23, [10, 5, 4])`
 #       Should return: [10, 5, 4, 4]
 
-def make_change_helper change, coin_array
+def make_change_helper(change, coin_array)
   return [] if change == 0
   if coin_array.length == 1
     if change == coin_array.first

@@ -17,7 +17,7 @@ def bsearch(array, target)
   else
     upper_array = array[(midpoint_index + 1)...array.length]
     upper_result = bsearch(upper_array, target)
-    upper_result +=  (lower_array.length + 1) unless upper_result.nil?
+    upper_result += (lower_array.length + 1) unless upper_result.nil?
   end
 end
 

@@ -2,8 +2,8 @@
 
 def caesar(str, num)
   hsh = {}
-  new_str=''
-  ("a".."z").to_a.each {|x| hsh[x.ord]=x}
+  new_str = ''
+  ("a".."z").to_a.each { |x| hsh[x.ord] = x }
   str.split('').each do |char|
     new_index = char.ord + num
     if new_index > 122

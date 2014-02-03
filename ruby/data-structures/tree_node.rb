@@ -4,7 +4,7 @@ class TreeNode
 
   attr_accessor :parent, :value, :children, :last_search_path
 
-  def initialize(value, parent=nil)
+  def initialize(value, parent = nil)
     @value = value
     parent.add_child(self) unless parent.nil?
     @children = []

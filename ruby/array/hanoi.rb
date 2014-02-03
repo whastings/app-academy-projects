@@ -2,12 +2,12 @@
 
 class HanoiTower
 
-  def initialize (num_disks)
+  def initialize(num_disks)
     @towers = [[], [], []]
     num_disks.downto(1) { |i| @towers.first << i }
   end
 
-  def move (start_tower, end_tower)
+  def move(start_tower, end_tower)
     if valid_move?(start_tower, end_tower)
       @towers[end_tower - 1] << @towers[start_tower - 1].pop
       @towers

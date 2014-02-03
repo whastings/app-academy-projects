@@ -11,10 +11,10 @@ def expo2(base, exponent)
   return 1 if exponent == 0
   temp = 0
   if exponent.even?
-    temp = expo2(base,exponent/2)
-    temp*temp
+    temp = expo2(base, exponent / 2)
+    temp * temp
   else
-    temp = expo2(base,(exponent-1)/2)
-    base*temp*temp
+    temp = expo2(base, (exponent - 1) / 2)
+    base * temp * temp
   end
 end

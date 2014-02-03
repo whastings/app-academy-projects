@@ -1,6 +1,6 @@
 # Pair programming partner: Samantha Eng
 
-def super_print(str, options={})
+def super_print(str, options = {})
   default = {
     times: 1,
     upcase: false,

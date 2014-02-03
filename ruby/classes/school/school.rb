@@ -33,7 +33,7 @@ class Student
   end
 
   def has_conflict?(other_course)
-    courses.select { |course| course.conflicts_with?(other_course)}.any?
+    courses.select { |course| course.conflicts_with?(other_course) }.any?
   end
 
   def to_s

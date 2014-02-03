@@ -2,31 +2,31 @@
 
 class Array
 
-  def my_each (&blk)
+  def my_each(&blk)
     index = 0
     while index < self.length
       blk.call(self[index])
-      index+=1
+      index += 1
     end
     self
   end
 
 
-  def my_map (&blk)
+  def my_map(&blk)
     [].tap do |mapped_array|
-      self.my_each { |element| mapped_array << blk.call(element)}
+      self.my_each { |element| mapped_array << blk.call(element) }
     end
   end
 
-  def my_select (&blk)
+  def my_select(&blk)
     [].tap do |mapped_array|
-      self.my_each {|element| mapped_array << element if blk.call(element)}
+      self.my_each { |element| mapped_array << element if blk.call(element) }
     end
   end
 
   def my_inject(&blk)
     current_value = self.first
-    self[1..-1].my_each {|element| current_value = blk.call(current_value, element)}
+    self[1..-1].my_each { |element| current_value = blk.call(current_value, element) }
     current_value
   end
 

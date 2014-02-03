@@ -1,9 +1,8 @@
 # Pair programming partner: Alexander Bryan
-# TODO: Use sets
 
 DICTIONARY = File.read("dictionary.txt").split("\n")
 
-def adjacent_words (word, dictionary)
+def adjacent_words(word, dictionary)
 
   word_chars = word.split("")
   found_words = []
@@ -22,13 +21,13 @@ end
 
 def explore_words(source, dictionary)
   words_to_expand = [source]
-  candidate_words = dictionary.select {|word| word.length == source.length}
+  candidate_words = dictionary.select { |word| word.length == source.length }
   all_reachable_words = [source]
 
   while true
 
-    more_words = adjacent_words(words_to_expand.pop,candidate_words)
-    candidate_words = candidate_words-more_words
+    more_words = adjacent_words(words_to_expand.pop, candidate_words)
+    candidate_words = candidate_words - more_words
     words_to_expand.concat(more_words)
     all_reachable_words.concat(more_words)
 
@@ -42,7 +41,7 @@ end
 
 def find_chain(source, target, dictionary)
   words_to_expand = [source]
-  candidate_words = dictionary.select {|word| word.length == source.length}
+  candidate_words = dictionary.select { |word| word.length == source.length }
   parents = {}
 
   while true
@@ -50,10 +49,10 @@ def find_chain(source, target, dictionary)
 
     break if parent_word == target
 
-    more_words = adjacent_words(parent_word,candidate_words)
-    candidate_words = candidate_words-more_words
+    more_words = adjacent_words(parent_word, candidate_words)
+    candidate_words = candidate_words - more_words
     words_to_expand.concat(more_words)
-    more_words.each { |child_word| parents[child_word] = parent_word}
+    more_words.each { |child_word| parents[child_word] = parent_word }
 
   end
 
