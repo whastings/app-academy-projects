@@ -1,6 +1,6 @@
 class Tile
 
-  attr_accessor :pos, :bomb, :revealed
+  attr_accessor :pos, :bomb, :revealed, :flag
 
   def initialize(x, y)
     @pos = [x, y]
@@ -84,6 +84,12 @@ class Minesweeper
     true
   end
 
+  def flag(position)
+    x, y = position
+    tile = @board[x][y]
+    tile.flag ? tile.flag = false : tile.flag = true
+  end
+
   def display
     printout = @board.flatten.map do |tile|
       tile.status(self.board)
@@ -109,15 +115,21 @@ class Minesweeper
       display
       puts "Enter your choice (i.e. 1,1) or flag using F,1,2:"
       position = user_input(gets.chomp)
-      if position.first == "F"
-
+      if position.first =~ /f/i
+        flag(position.drop(1))
       else
         unless expand(position)
+          show_all_bombs
+          display
           puts "Game over!"
           break
         end
       end
     end
+  end
+
+  def show_all_bombs
+    @board.flatten.each { |tile| tile.revealed = true if tile.bomb }
   end
 
 end
