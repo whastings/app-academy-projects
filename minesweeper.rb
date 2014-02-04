@@ -6,7 +6,7 @@ class Minesweeper
 
   def initialize(start_board = nil)
     if start_board.nil?
-      @board = Array.new(9){ Array.new}
+      @board = Array.new(9) { [] }
       @board.each_with_index do |row, index|
         9.times do |col_index|
           row << Tile.new(col_index, index, self)
@@ -20,19 +20,7 @@ class Minesweeper
   end
 
   def puts_bombs
-    bombs = []
-
-    @board.flatten.sample(10).each{ |tile|tile.bomb = true }
-
-    # until bombs.length == 10
-    #     row = (0..8).to_a.sample
-    #     column = (0..8).to_a.sample
-    #     unless bombs.include? [row,column]
-    #       @board[row][column].bomb = true
-    #       bombs << [row,column]
-    #     end
-    #   end
-
+    @board.flatten.sample(10).each { |tile| tile.bomb = true }
   end
 
   def save_board
@@ -55,7 +43,6 @@ class Minesweeper
   def flag(position)
     x, y = position
     tile = @board[y][x]
-    # tile.flag ? tile.flag = false : tile.flag = true
     tile.flag = !tile.flag
   end
 
@@ -82,7 +69,9 @@ class Minesweeper
   end
 
   def user_input(input)
-    position = input.split(",").map { |char| char =~ /\d/ ? char.to_i : char.downcase }
+    position = input.split(",").map do |char|
+      char =~ /\d/ ? char.to_i : char.downcase
+    end
     case position.first
     when "f"
       flag(position.drop(1))
