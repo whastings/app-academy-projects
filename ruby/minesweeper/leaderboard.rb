@@ -1,3 +1,5 @@
+# Pair programming partner: Weyman Fung
+
 class Leaderboard
   def initialize(time)
     contents = File.read("leaderboard.txt")

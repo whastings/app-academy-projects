@@ -1,3 +1,5 @@
+# Pair programming partner: Weyman Fung
+
 require './tile'
 require './leaderboard'
 

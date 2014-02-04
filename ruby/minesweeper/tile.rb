@@ -1,4 +1,5 @@
 # encoding: utf-8
+# Pair programming partner: Weyman Fung
 
 class Tile
 
