@@ -69,10 +69,9 @@ class SlidingPiece < Piece
       x_direction << possible_moves[index] if index.odd?
       y_direction << possible_moves[index] if index.even?
     end
-
     if x_direction.include?(position)
       x_direction = x_direction.take(x_direction.index(position))
-       return x_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
+      return x_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
     else
       y_direction = y_direction.take(y_direction.index(position))
       return y_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
@@ -111,9 +110,10 @@ class Queen < SlidingPiece
   def move(position)
     diagonals = []
     possible_moves = moves
+    starting_pos = @position
 
     possible_moves.each_with_index do |move, index|
-      diagonals << move if (index % 3 == 0 || index == 0)
+      diagonals << move if move.first != starting_pos.first && move.last != starting_pos.last
     end
     if diagonals.include?(position)
       check_moves(position, diagonals)
@@ -159,8 +159,14 @@ end
 
 class Pawn < Piece
 
+  DIRECTION = [[0, 1], [0, 2]]
+
   def to_s
     "\u2659 "
+  end
+
+  def move_dirs
+    DIRECTION
   end
 
 end
@@ -174,6 +180,7 @@ class Board
   def initialize
     @board = Array.new(8){Array.new(8)}
     setup_board
+    @kings = { b: @board[0][4], w: @board[7][4] }
   end
 
   def setup_board
@@ -206,9 +213,41 @@ class Board
     end
   end
 
+  def in_check?(color)
+    king_position = @kings[color].position
+    pieces(color == :b ? :w : :b).each do |piece|
+      return true if piece.move(king_position)
+    end
+  end
+
+  def pieces(color)
+    [].tap do |pieces_found|
+      @board.each do |row|
+        row.each do |piece|
+          pieces_found << piece if !piece.nil? && piece.color == color
+        end
+      end
+    end
+  end
+
 end
 
 class Game
+
+  attr_accessor :board
+
+  def initialize
+    @board = Board.new
+  end
+
+  def display_board
+    @board.board.each do |row|
+      row.each do |piece|
+        print piece.nil? ? '- ' : piece
+      end
+      puts ''
+    end
+  end
 
 end
 
