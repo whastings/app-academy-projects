@@ -2,55 +2,65 @@ require 'yaml'
 
 class Tile
 
-  attr_accessor :pos, :bomb, :revealed, :flag
+  attr_accessor :pos, :bomb, :revealed, :flag, :board
 
-  OMG = [ [1, 0], [0, 1], [1, 1], [-1, 1], [1, -1], [-1, 0], [0, -1], [-1, -1] ]
+  TILE_OFFSETS = [
+    [1, 0],
+    [0, 1],
+    [1, 1],
+    [-1, 1],
+    [1, -1],
+    [-1, 0],
+    [0, -1],
+    [-1, -1]
+  ]
 
-  def initialize(x, y)
+  def initialize(x, y, game)
     @pos = [x, y]
     @bomb = false
     @flag = false
     @revealed = false
+    @board = game.board
   end
 
-  def reveal(board)
+  def reveal
     return if @flag
     @revealed = true
-    bombs_nearby = neighbor_bomb_count(board)
+    bombs_nearby = neighbor_bomb_count
     return true if bombs_nearby > 0
-    near_neighbors = neighbors(board)
+    near_neighbors = neighbors
     near_neighbors.reject! { |neighbor| neighbor.revealed }
-    near_neighbors.each { |neighbor| neighbor.reveal(board) }
+    near_neighbors.each { |neighbor| neighbor.reveal }
   end
 
-  def neighbors(board)
+  def neighbors
     neighbor_tiles = []
     x, y = @pos
-    OMG.each do |x2, y2|
+    TILE_OFFSETS.each do |x2, y2|
       if (0..8).cover?(x + x2) && (0..8).cover?(y + y2)
-        neighbor_tiles << board[y + y2][x + x2]
+        neighbor_tiles << self.board[y + y2][x + x2]
       end
     end
     neighbor_tiles
   end
 
-  def neighbor_bomb_count(board)
+  def neighbor_bomb_count
     count = 0
-    neighbors(board).each do |neighbor|
+    neighbors.each do |neighbor|
       count += 1 if neighbor.bomb
     end
     count
   end
 
-  def status(board)
+  def status
     return "F" if @flag
 
     if @revealed == false
       return "*"
     else
       return "$" if @bomb
-      return "_" if neighbor_bomb_count(board) == 0
-      return neighbor_bomb_count(board)
+      return "_" if neighbor_bomb_count == 0
+      return neighbor_bomb_count
     end
 
   end
@@ -63,8 +73,11 @@ class Minesweeper
 
   def initialize(start_board = nil)
     if start_board.nil?
-      @board = Array.new(9) do |ind|
-        Array.new(9) { |sec_ind| Tile.new(sec_ind, ind) }
+      @board = Array.new(9){ Array.new}
+      @board.each_with_index do |row, index|
+        9.times do |col_index|
+          row << Tile.new(col_index, index, self)
+        end
       end
       puts_bombs
       @time = 0
@@ -101,7 +114,7 @@ class Minesweeper
       return false
     end
 
-    @board[y][x].reveal(@board)
+    @board[y][x].reveal
 
     true
   end
@@ -115,7 +128,7 @@ class Minesweeper
 
   def display
     printout = @board.flatten.map do |tile|
-      tile.status(self.board)
+      tile.status
     end
     count = 0
     another_count = 0
