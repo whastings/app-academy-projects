@@ -34,6 +34,20 @@ class Tile
     near_neighbors.each { |neighbor| neighbor.reveal }
   end
 
+  def status
+    return "⚐" if @flag
+
+    if @revealed == false
+      return "◼"
+    else
+      return "☀" if @bomb
+      return "_" if neighbor_bomb_count == 0
+      return neighbor_bomb_count
+    end
+  end
+
+  private
+
   def neighbors
     neighbor_tiles = []
     x, y = @pos
@@ -53,17 +67,5 @@ class Tile
     count
   end
 
-  def status
-    return "⚐" if @flag
-
-    if @revealed == false
-      return "◼"
-    else
-      return "☀" if @bomb
-      return "_" if neighbor_bomb_count == 0
-      return neighbor_bomb_count
-    end
-
-  end
 
 end

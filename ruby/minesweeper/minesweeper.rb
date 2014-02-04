@@ -21,6 +21,29 @@ class Minesweeper
     end
   end
 
+  def play
+    @start_time = Time.now
+    while true
+      display
+      puts "Enter your choice (i.e. 1,1) or flag using F,1,2"
+      puts "q for quit, l for load, s for save:"
+      break unless user_input(gets.chomp)
+      if won?
+        puts "You win!"
+        break
+      end
+    end
+    @time += (Time.now - @start_time).to_f
+    puts "Time taken: #{@time}"
+    display_leader_board if won?
+  end
+
+  private
+
+  def show_all_bombs
+    @board.flatten.each { |tile| tile.revealed = true if tile.bomb }
+  end
+
   def puts_bombs
     @board.flatten.sample(10).each { |tile| tile.bomb = true }
   end
@@ -107,27 +130,6 @@ class Minesweeper
     show_all_bombs
     display
     puts "Game over!"
-  end
-
-  def play
-    @start_time = Time.now
-    while true
-      display
-      puts "Enter your choice (i.e. 1,1) or flag using F,1,2"
-      puts "q for quit, l for load, s for save:"
-      break unless user_input(gets.chomp)
-      if won?
-        puts "You win!"
-        break
-      end
-    end
-    @time += (Time.now - @start_time).to_f
-    puts "Time taken: #{@time}"
-    display_leader_board if won?
-  end
-
-  def show_all_bombs
-    @board.flatten.each { |tile| tile.revealed = true if tile.bomb }
   end
 
   def display_leader_board
