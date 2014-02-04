@@ -28,7 +28,7 @@ class Tile
     x, y = @pos
     OMG.each do |x2, y2|
       if (0..8).cover?(x + x2) && (0..8).cover?(y + y2)
-        neighbor_tiles << board[x + x2][y + y2]
+        neighbor_tiles << board[y + y2][x + x2]
       end
     end
     neighbor_tiles
@@ -64,7 +64,7 @@ class Minesweeper
   def initialize(start_board = nil)
     if start_board.nil?
       @board = Array.new(9) do |ind|
-        Array.new(9) { |sec_ind| Tile.new(ind, sec_ind) }
+        Array.new(9) { |sec_ind| Tile.new(sec_ind, ind) }
       end
       puts_bombs
       @time = 0
@@ -96,19 +96,19 @@ class Minesweeper
 
   def expand(position)
     x, y = position
-    if @board[x][y].bomb
+    if @board[y][x].bomb
       lost
       return false
     end
 
-    @board[x][y].reveal(@board)
+    @board[y][x].reveal(@board)
 
     true
   end
 
   def flag(position)
     x, y = position
-    tile = @board[x][y]
+    tile = @board[y][x]
     # tile.flag ? tile.flag = false : tile.flag = true
     tile.flag = !tile.flag
   end
