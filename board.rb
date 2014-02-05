@@ -1,3 +1,12 @@
+class MoveError < ArgumentError
+  attr_reader :start_pos, :end_pos, :piece
+
+  def initialize(message, start_pos, end_pos, piece)
+    super(message)
+    @start_pos, @end_pos, @piece = start_pos, end_pos, piece
+  end
+
+end
 
 class Board
   attr_accessor :board, :kings
@@ -37,7 +46,7 @@ class Board
       @board[start_y][start_x] = nil
       @board[end_y][end_x] = piece
     else
-      raise ArgumentError, "Can't move there asshole!"
+      raise MoveError.new("Can't move there asshole!", start_pos, end_pos, piece)
     end
   end
 
@@ -63,9 +72,11 @@ class Board
   def dup
     new_board = Board.new
     check_board = Array.new(8){ [] }
+    new_board.board = check_board
     @board.each_with_index do |row, index|
       row.each do |piece|
         duped_piece = (piece.nil? ? nil : piece.dup)
+        duped_piece.set_board(new_board) if duped_piece
         check_board[index] << duped_piece
         if piece.is_a?(King)
           new_board.kings[piece.color] = duped_piece
@@ -73,7 +84,6 @@ class Board
       end
     end
 
-    new_board.board = check_board
     new_board
   end
 

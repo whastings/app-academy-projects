@@ -16,7 +16,8 @@ class SlidingPiece < Piece
     possible_moves
   end
 
-  def move(position)    return false unless super
+  def move(position)
+    return false unless super
     possible_moves = moves
     return false unless possible_moves.include?(position)
 

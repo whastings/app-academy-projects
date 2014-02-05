@@ -53,14 +53,19 @@ board = game.board
 # Test Piece#move_into_check?
 board.board[1].map! { |n| nil }
 board.board[6].map! { |n| nil }
-board.display_board
-p board.board[0][4].valid_moves
-board.display_board
-puts "Test Knight move"
-board.move([1, 0], [2, 2])
-board.display_board
-board.move([4, 0], [3, 1])
-puts "Test King's move to check"
-board.display_board
 
+p board.board[0][4].valid_moves
+
+begin
+  p board.board[0][4].valid_moves
+rescue => error
+  p error.message
+  p error.start_pos
+  p error.end_pos
+  p error.piece.class
+  p error.piece.moves
+  p error.piece.move(error.end_pos)
+  game.display_board
+  puts error.backtrace
+end
 
