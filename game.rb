@@ -19,10 +19,19 @@ class Game
 
   def play
     until @board.checkmate?(:w) || @board.checkmate?(:b)
-      move = @current_turn.play_turn
-      @board.move(move.first, move.last)
-      @current_turn = @current_turn == @player1 ? @player2 : @player1
+      begin
+        move = @current_turn.play_turn
+        @board.move(move.first, move.last)
+        @current_turn = @current_turn == @player1 ? @player2 : @player1
+      rescue MoveError => e
+        system('clear')
+        puts e.message
+        sleep(1)
+        retry
+      end
     end
+
+    puts "Game Over! You freaking won!"
   end
 
 end

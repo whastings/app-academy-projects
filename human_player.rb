@@ -18,7 +18,6 @@ class HumanPlayer
       end
       new_chars.join
     end
-    board_array[@cursor_position.last][@cursor_position.first + 1] = "\u25A2"
     board_array.join("\n")
   end
 
@@ -31,8 +30,8 @@ class HumanPlayer
 
   def play_turn
     positions = []
-    Dispel::Screen.open do |screen|
-      screen.draw board_string
+    Dispel::Screen.open(colors: true) do |screen|
+      screen.draw board_string, map, cursor_position
       Dispel::Keyboard.output do |key|
         break if key == "q"
         case key
@@ -42,14 +41,29 @@ class HumanPlayer
         when :left then move_cursor(-2,0)
         when :enter
           positions << [@cursor_position.first / 2, @cursor_position.last]
-
-          sleep(1)
           break if positions.length == 2
         end
-        screen.draw board_string
+        screen.draw board_string, map, cursor_position
       end
     end
     return positions
+  end
+
+  private
+
+  def cursor_position
+    pos = @cursor_position.reverse
+    pos[1] += 1
+    pos
+  end
+
+  def map
+    map = Dispel::StyleMap.new(8)
+    # 8.times do |line|
+#       color_spaces = [[3, 4], [11, 12]]
+#       map.add(["#ffffff", "#666699"], line, color_spaces)
+#     end
+    map
   end
 
 end

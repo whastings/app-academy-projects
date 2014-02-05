@@ -10,7 +10,7 @@ class Pawn < Piece
   end
 
   def to_s
-    "\u2659"
+    @color == :w ? "\u2659" : "\u265F"
   end
 
   def move_dirs
