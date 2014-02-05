@@ -42,7 +42,9 @@ class Board
   end
 
   def in_check?(color)
+
     king_position = @kings[color].position
+        p "king's position: #{king_position}"
     pieces(color == :b ? :w : :b).each do |piece|
       return true if piece.move(king_position)
     end
@@ -73,6 +75,19 @@ class Board
 
     new_board.board = check_board
     new_board
+  end
+
+  def display_board
+    sides = 0
+    puts " " + (0..7).to_a.map(&:to_s).join(" ")
+    @board.each do |row|
+      print sides
+      row.each do |piece|
+        print piece.nil? ? '- ' : piece
+      end
+      puts ''
+      sides += 1
+    end
   end
 
 end
