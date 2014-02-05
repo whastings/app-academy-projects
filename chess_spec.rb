@@ -53,4 +53,15 @@ board = game.board
 # Test Piece#move_into_check?
 board.board[1].map! { |n| nil }
 board.board[6].map! { |n| nil }
-p board.board[0][4].valid_moves
+begin
+  p board.board[0][4].valid_moves
+rescue => error
+  p error.message
+  p error.start_pos
+  p error.end_pos
+  p error.piece.class
+  p error.piece.moves
+  p error.piece.move(error.end_pos)
+  game.display_board
+  puts error.backtrace
+end
