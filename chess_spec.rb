@@ -53,7 +53,9 @@ board = game.board
 # Test Piece#move_into_check?
 board.board[1].map! { |n| nil }
 board.board[6].map! { |n| nil }
-# board.display_board
+board.display_board
+board.move([4,0], [3,1])
+board.display_board
 # p board.board[0][4].valid_moves
 # board.display_board
 

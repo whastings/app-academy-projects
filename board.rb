@@ -41,6 +41,20 @@ class Board
     start_x, start_y = start_pos
     end_x, end_y = end_pos
     piece = @board[start_y][start_x]
+
+    unless piece.valid_moves.include?(end_pos)
+      raise MoveError.new("This move will put you in check!", start_pos, end_pos, piece)
+    end
+
+    move!(start_pos, end_pos)
+  end
+
+  # make move even when move puts it in check
+  def move!(start_pos, end_pos)
+    start_x, start_y = start_pos
+    end_x, end_y = end_pos
+    piece = @board[start_y][start_x]
+
     if piece.move(end_pos)
       piece.position = end_pos
       @board[start_y][start_x] = nil
@@ -55,6 +69,7 @@ class Board
     pieces(color == :b ? :w : :b).each do |piece|
       return true if piece.move(king_position)
     end
+
     false
   end
 
