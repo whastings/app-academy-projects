@@ -42,20 +42,20 @@ board = game.board
 # game.display_board
 
 # Test check:
-board.display_board
-puts ""
-board.move([5, 6], [5, 5])
-board.display_board
-puts ""
-board.move([4, 1], [4, 3])
-board.display_board
-puts ""
-board.move([6, 6], [6, 4])
-board.display_board
-puts ""
-board.move([3, 0], [7, 4])
-board.display_board
-puts "In checkmate: #{board.checkmate?(:w)}"
+# board.display_board
+# puts ""
+# board.move([5, 6], [5, 5])
+# board.display_board
+# puts ""
+# board.move([4, 1], [4, 3])
+# board.display_board
+# puts ""
+# board.move([6, 6], [6, 4])
+# board.display_board
+# puts ""
+# board.move([3, 0], [7, 4])
+# board.display_board
+# puts "In checkmate: #{board.checkmate?(:w)}"
 
 # Test Piece#move_into_check?
 # board.board[1].map! { |n| nil }
@@ -70,6 +70,18 @@ puts "In checkmate: #{board.checkmate?(:w)}"
 # p board.board[0][4].valid_moves
 # board.display_board
 # board.display_board
+
+# Test pawn taking:
+board.display_board
+puts ""
+board.move([5, 6], [5, 4])
+board.display_board
+puts ""
+board.move([4, 1], [4, 3])
+board.display_board
+puts ""
+board.move([4, 3], [5, 4])
+board.display_board
 
 # begin
 #   p board.board[0][4].valid_moves
