@@ -30,7 +30,9 @@ class Piece
   end
 
   def valid_moves
-    moves.select { |possible_move| move(possible_move) }.reject { |p_move| move_into_check?(p_move) }
+    possible_moves = moves
+    return [] if possible_moves.nil?
+    possible_moves.select { |possible_move| move(possible_move) }.reject { |p_move| move_into_check?(p_move) }
   end
 
   def dup

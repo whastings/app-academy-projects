@@ -37,11 +37,10 @@ class Board
     @board
   end
 
+  # check if piece can move to end_pos
   def move(start_pos, end_pos)
     start_x, start_y = start_pos
-    end_x, end_y = end_pos
     piece = @board[start_y][start_x]
-
     unless piece.valid_moves.include?(end_pos)
       raise MoveError.new("This move will put you in check!", start_pos, end_pos, piece)
     end
@@ -71,6 +70,13 @@ class Board
     end
 
     false
+  end
+
+  def checkmate?(color)
+    return false unless in_check?(color)
+    pieces(color).all? do |piece|
+      piece.valid_moves.empty?
+    end
   end
 
   def pieces(color)
