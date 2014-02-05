@@ -3,7 +3,7 @@ class Bishop < SlidingPiece
     DIAGONAL
   end
   def to_s
-    "\u2657 "
+    "\u2657"
   end
 
 end

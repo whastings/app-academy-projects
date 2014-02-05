@@ -8,7 +8,7 @@ class King < SteppingPiece
   end
 
   def to_s
-    "\u2654 "
+    "\u2654"
   end
 
 end

@@ -8,6 +8,6 @@ class Knight < SteppingPiece
   end
 
   def to_s
-    "\u2658 "
+    "\u2658"
   end
 end

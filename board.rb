@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class MoveError < ArgumentError
   attr_reader :start_pos, :end_pos, :piece
 
@@ -109,15 +111,16 @@ class Board
 
   def display_board
     sides = 0
-    puts " " + (0..7).to_a.map(&:to_s).join(" ")
+    board_string = ''
     @board.each do |row|
-      print sides
       row.each do |piece|
-        print piece.nil? ? '- ' : piece
+        board_string << (piece.nil? ? "_" : piece.to_s)
       end
-      puts ''
-      sides += 1
+      board_string << "\n"
+
     end
+
+    board_string
   end
 
 end

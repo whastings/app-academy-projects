@@ -23,6 +23,6 @@ class Queen < SlidingPiece
   end
 
   def to_s
-    "\u2655 "
+    "\u2655"
   end
 end

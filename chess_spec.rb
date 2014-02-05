@@ -72,16 +72,16 @@ board = game.board
 # board.display_board
 
 # Test pawn taking:
-board.display_board
-puts ""
-board.move([5, 6], [5, 4])
-board.display_board
-puts ""
-board.move([4, 1], [4, 3])
-board.display_board
-puts ""
-board.move([4, 3], [5, 4])
-board.display_board
+# board.display_board
+# puts ""
+# board.move([5, 6], [5, 4])
+# board.display_board
+# puts ""
+# board.move([4, 1], [4, 3])
+# board.display_board
+# puts ""
+# board.move([4, 3], [5, 4])
+# board.display_board
 
 # begin
 #   p board.board[0][4].valid_moves
@@ -96,4 +96,8 @@ board.display_board
 #   game.display_board
 #   puts error.backtrace
 # end
+
+# Test display string in HumanPlayer
+
+game.play
 

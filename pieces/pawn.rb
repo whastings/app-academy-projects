@@ -10,7 +10,7 @@ class Pawn < Piece
   end
 
   def to_s
-    "\u2659 "
+    "\u2659"
   end
 
   def move_dirs
