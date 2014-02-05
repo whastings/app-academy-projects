@@ -51,12 +51,11 @@ class Board
   end
 
   def in_check?(color)
-
     king_position = @kings[color].position
-        p "king's position: #{king_position}"
     pieces(color == :b ? :w : :b).each do |piece|
       return true if piece.move(king_position)
     end
+    false
   end
 
   def pieces(color)

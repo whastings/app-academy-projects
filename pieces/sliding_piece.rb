@@ -24,6 +24,7 @@ class SlidingPiece < Piece
     check_moves(position, possible_moves)
   end
 
+  # Makes sure no pieces are between piece and the target position.
   def check_moves(position, possible_moves)
     x_direction, y_direction = [], []
     possible_moves.each_index do |index|
@@ -35,6 +36,7 @@ class SlidingPiece < Piece
       return x_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
     elsif y_direction.include?(position)
       y_direction = y_direction.take(y_direction.index(position))
+      y_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
       return y_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
     end
     false
