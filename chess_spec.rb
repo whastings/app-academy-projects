@@ -42,10 +42,15 @@ board = game.board
 # game.display_board
 
 # Test check:
-board.move([5, 6], [5, 5])
-board.move([4, 1], [4, 3])
-board.move([6, 6], [6, 4])
-game.display_board
-board.move([3, 0], [7, 4])
-game.display_board
-puts "In check: #{board.in_check?(:w)}"
+# board.move([5, 6], [5, 5])
+# board.move([4, 1], [4, 3])
+# board.move([6, 6], [6, 4])
+# game.display_board
+# board.move([3, 0], [7, 4])
+# game.display_board
+# puts "In check: #{board.in_check?(:w)}"
+
+# Test Piece#move_into_check?
+board.board[1].map! { |n| nil }
+board.board[6].map! { |n| nil }
+p board.board[0][4].valid_moves

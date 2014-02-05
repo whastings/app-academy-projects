@@ -13,11 +13,12 @@ class Queen < SlidingPiece
       diagonals << move if move.first != starting_pos.first && move.last != starting_pos.last
     end
     if diagonals.include?(position)
-      check_moves(position, diagonals)
+      return check_moves(position, diagonals)
     else
       orthagonal = possible_moves.reject { |move| diagonals.include?(move) }
-      check_moves(position, orthagonal)
+      return check_moves(position, orthagonal) if orthagonal.include?(position)
     end
+    false
   end
 
   def to_s

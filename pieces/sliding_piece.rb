@@ -17,6 +17,7 @@ class SlidingPiece < Piece
   end
 
   def move(position)
+    debugger
     return false unless super
     possible_moves = moves
     return false unless possible_moves.include?(position)
@@ -33,9 +34,10 @@ class SlidingPiece < Piece
     if x_direction.include?(position)
       x_direction = x_direction.take(x_direction.index(position))
       return x_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
-    else
+    elsif y_direction.include?(position)
       y_direction = y_direction.take(y_direction.index(position))
       return y_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
     end
+    false
   end
 end

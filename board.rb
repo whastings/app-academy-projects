@@ -1,5 +1,6 @@
+
 class Board
-  attr_reader :board
+  attr_accessor :board, :kings
 
   START_POSITION = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
   START_ROW = [0, 1, 6, 7]
@@ -55,6 +56,23 @@ class Board
         end
       end
     end
+  end
+
+  def dup
+    new_board = Board.new
+    check_board = Array.new(8){ [] }
+    @board.each_with_index do |row, index|
+      row.each do |piece|
+        duped_piece = (piece.nil? ? nil : piece.dup)
+        check_board[index] << duped_piece
+        if piece.is_a?(King)
+          new_board.kings[piece.color] = duped_piece
+        end
+      end
+    end
+
+    new_board.board = check_board
+    new_board
   end
 
 end
