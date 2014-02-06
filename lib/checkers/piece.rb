@@ -27,8 +27,10 @@ module Checkers
       true
     end
 
-    def perform_jump(position)
-
+    def perform_jump(target_position)
+      return false unless possible_jumps.include?(target_position)
+      @position = target_position
+      true
     end
 
     def make_king
@@ -50,6 +52,17 @@ module Checkers
       end
       return base_directions unless @is_king
       base_directions + base_directions.map { |x, y| [x * -1, y * -1] }
+    end
+
+    def possible_jumps
+      possibilities = []
+      possible_moves.each do |move_x, move_y|
+        next if @board[move_x, move_y].nil?
+        diff_x, diff_y = move_x - pos_x, move_y - pos_y
+        jump_position = [move_x + diff_x, move_y + diff_y]
+        possibilities << jump_position if @board[*jump_position].nil?
+      end
+      possibilities
     end
   end
 
