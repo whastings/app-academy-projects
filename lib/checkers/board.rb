@@ -23,6 +23,7 @@ module Checkers
       if piece.perform_slide(end_pos)
         self[*start_pos] = nil
         self[*end_pos] = piece
+        maybe_promote(piece)
         true
       else
         raise ArgumentError, "The selected piece can't move there."
@@ -71,6 +72,14 @@ module Checkers
         next if col_index.odd?
         @rows[row_index][col_index] =
           Piece.new([col_index, row_index], color, self)
+      end
+    end
+
+    def maybe_promote(piece)
+      if piece.color == :white && piece.pos_y == 7
+        piece.make_king
+      elsif piece.color == :black && piece.pos_y = 0
+        piece.make_king
       end
     end
 
