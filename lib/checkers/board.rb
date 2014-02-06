@@ -10,8 +10,23 @@ module Checkers
     end
 
     def [](x, y)
-      x, y = position
       @rows[y][x]
+    end
+
+    def []=(x, y, piece)
+      @rows[y][x] = piece
+    end
+
+    def move(start_pos, end_pos)
+      piece = self[*start_pos]
+      raise ArgumentError, "Piece to move doesn't exist." if piece.nil?
+      if piece.perform_slide(end_pos)
+        self[*start_pos] = nil
+        self[*end_pos] = piece
+        true
+      else
+        raise ArgumentError, "The selected piece can't move there."
+      end
     end
 
     def render
