@@ -46,7 +46,11 @@ class HumanPlayer
         when :left then move_cursor(-2,0)
         when :enter
           positions << [@cursor_position.first / 2, @cursor_position.last]
-          break if positions.length == 2
+          if positions.length == 2
+            break
+          else
+            @board.current_piece = positions.first
+          end
         end
         screen.draw board_string, map, cursor_position
       end

@@ -119,15 +119,24 @@ class Board
   def display_board
     sides = 0
     board_string = ''
-    @board.each do |row|
-      row.each do |piece|
-        board_string << (piece.nil? ? " " : piece.to_s)
+    possible_moves = (@current_piece) ? @current_piece.moves : []
+    @board.each_with_index do |row, row_index|
+      row.each_with_index do |piece, col_index|
+        if possible_moves.include?([col_index, row_index])
+          board_string << "X"
+        else
+          board_string << (piece.nil? ? " " : piece.to_s)
+        end
       end
 
       board_string << "\n"
     end
-
+    @current_piece = nil
     board_string
+  end
+
+  def current_piece=(position)
+    @current_piece = @board[position.last][position.first]
   end
 
 end
