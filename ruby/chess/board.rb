@@ -45,7 +45,7 @@ class Board
       raise MoveError.new("No piece selected.", start_pos, end_pos, piece)
     end
     unless piece.move(end_pos)
-      raise MoveError.new("Can't move there asshole!", start_pos, end_pos, piece)
+      raise MoveError.new("Can't move there!", start_pos, end_pos, piece)
     end
     unless piece.valid_moves.include?(end_pos)
       raise MoveError.new("This move will put you in check!", start_pos, end_pos, piece)

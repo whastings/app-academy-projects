@@ -1,4 +1,3 @@
-require "debugger"
 
 require 'colorize'
 require './pieces/piece'
@@ -14,3 +13,8 @@ require './pieces/pawn.rb'
 require './board'
 require './game'
 require './human_player'
+
+if __FILE__ == $PROGRAM_NAME
+  game = Game.new
+  game.play
+end
