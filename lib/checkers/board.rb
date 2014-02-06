@@ -9,7 +9,7 @@ module Checkers
       fill((5..7), :black)
     end
 
-    def [](position)
+    def [](x, y)
       x, y = position
       @rows[y][x]
     end
