@@ -9,6 +9,7 @@ module Checkers
 
     def initialize(position, color, board)
       @position, @color, @board = position, color, board
+      @is_king = false
     end
 
     def pos_x
@@ -30,6 +31,10 @@ module Checkers
 
     end
 
+    def make_king
+      @is_king = true
+    end
+
     private
 
     def possible_moves
@@ -39,8 +44,12 @@ module Checkers
     end
 
     def directions
-      return WHITE_DIRECTIONS if @color == :white
-      BLACK_DIRECTIONS
+      base_directions = BLACK_DIRECTIONS
+      if @color == :white
+        base_directions = WHITE_DIRECTIONS
+      end
+      return base_directions unless @is_king
+      base_directions + base_directions.map { |x, y| [x * -1, y * -1] }
     end
   end
 

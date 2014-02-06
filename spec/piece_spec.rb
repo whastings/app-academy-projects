@@ -1,7 +1,6 @@
 require "rspec"
 
 describe Checkers::Piece do
-  #let!(:board) { double("board") }
   let(:board) { "" }
   before { board = double("board") }
   let(:piece) { Checkers::Piece.new([0, 2], :white, board) }
@@ -43,6 +42,17 @@ describe Checkers::Piece do
         expect(piece.position).to eq([3, 3])
       end
       it "can move one space diagonally to the left" do
+        expect(piece.perform_slide([1, 3])).to be_true
+        expect(piece.position).to eq([1, 3])
+      end
+    end
+
+    context "as a king" do
+      before do
+        piece.position = [0, 4]
+        piece.make_king
+      end
+      it "can move backward" do
         expect(piece.perform_slide([1, 3])).to be_true
         expect(piece.position).to eq([1, 3])
       end
