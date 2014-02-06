@@ -15,6 +15,7 @@ class Piece
 
   end
 
+  # check if piece can move to end_pos
   def move(position)
     x, y = position
     target_position = @board[y][x]

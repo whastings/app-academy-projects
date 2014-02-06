@@ -24,7 +24,9 @@ class HumanPlayer
   def move_cursor(x_offset, y_offset)
     current_x, current_y = @cursor_position
     new_x = current_x + x_offset
+    return unless (0..15).cover?(new_x)
     new_y = current_y + y_offset
+    return unless (0..7).cover?(new_y)
     @cursor_position = [new_x, new_y]
   end
 

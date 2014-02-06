@@ -39,10 +39,15 @@ class Board
     @board
   end
 
-  # check if piece can move to end_pos
   def move(start_pos, end_pos)
     start_x, start_y = start_pos
     piece = @board[start_y][start_x]
+    unless piece
+      raise MoveError.new("No piece selected.", start_pos, end_pos, piece)
+    end
+    unless piece.move(end_pos)
+      raise MoveError.new("Can't move there asshole!", start_pos, end_pos, piece)
+    end
     unless piece.valid_moves.include?(end_pos)
       raise MoveError.new("This move will put you in check!", start_pos, end_pos, piece)
     end
@@ -56,13 +61,9 @@ class Board
     end_x, end_y = end_pos
     piece = @board[start_y][start_x]
 
-    if piece.move(end_pos)
-      piece.position = end_pos
-      @board[start_y][start_x] = nil
-      @board[end_y][end_x] = piece
-    else
-      raise MoveError.new("Can't move there asshole!", start_pos, end_pos, piece)
-    end
+    piece.position = end_pos
+    @board[start_y][start_x] = nil
+    @board[end_y][end_x] = piece
   end
 
   def in_check?(color)
@@ -116,8 +117,8 @@ class Board
       row.each do |piece|
         board_string << (piece.nil? ? "_" : piece.to_s)
       end
-      board_string << "\n"
 
+      board_string << "\n"
     end
 
     board_string

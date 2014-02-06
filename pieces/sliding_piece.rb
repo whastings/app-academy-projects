@@ -20,25 +20,44 @@ class SlidingPiece < Piece
     return false unless super
     possible_moves = moves
     return false unless possible_moves.include?(position)
-
     check_moves(position, possible_moves)
   end
 
   # Makes sure no pieces are between piece and the target position.
   def check_moves(position, possible_moves)
-    x_direction, y_direction = [], []
-    possible_moves.each_index do |index|
-      x_direction << possible_moves[index] if index.odd?
-      y_direction << possible_moves[index] if index.even?
+    increment = []
+    start_pos, end_pos = @position.dup, position.dup
+    # handle y movement
+    if start_pos[0] == end_pos[0]
+      difference = end_pos[1] - start_pos[1]
+      diff = difference / difference.abs
+      while end_pos != start_pos
+        #list of positions before target
+        increment << [start_pos[0], start_pos[1] + diff]
+        start_pos[1] += diff
+      end
+    # handle x movement
+    elsif start_pos[1] == end_pos[1]
+      difference = end_pos[0] - start_pos[0]
+      diff = difference / difference.abs
+      while end_pos != start_pos
+        #list of positions before target
+        increment << [start_pos[0] + diff, start_pos[1]]
+        start_pos[0] += diff
+      end
+    # handle diagonals
+    else
+      x_difference = end_pos[0] - start_pos[0]
+      y_difference = end_pos[1] - start_pos[1]
+      x_diff = x_difference / x_difference.abs
+      y_diff = y_difference / y_difference.abs
+      while end_pos != start_pos
+        #list of positions before target
+        increment << [start_pos[0] + x_diff, start_pos[1] + y_diff]
+        start_pos[0] += x_diff
+        start_pos[1] += y_diff
+      end
     end
-    if x_direction.include?(position)
-      x_direction = x_direction.take(x_direction.index(position))
-      return x_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
-    elsif y_direction.include?(position)
-      y_direction = y_direction.take(y_direction.index(position))
-      y_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
-      return y_direction.all? { |x_coord, y_coord| @board[y_coord][x_coord].nil? }
-    end
-    false
+    increment.include?(position)
   end
 end
