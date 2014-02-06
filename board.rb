@@ -1,5 +1,4 @@
 # encoding: UTF-8
-
 class MoveError < ArgumentError
   attr_reader :start_pos, :end_pos, :piece
 
@@ -69,9 +68,11 @@ class Board
   def in_check?(color)
     king_position = @kings[color].position
     pieces(color == :b ? :w : :b).each do |piece|
-      return true if piece.move(king_position)
-    end
+      if piece.move(king_position)
 
+        return true
+      end
+    end
     false
   end
 
@@ -94,15 +95,20 @@ class Board
 
   def dup
     new_board = Board.new
-    check_board = Array.new(8){ [] }
+    check_board = Array.new(8){ Array.new(8) }
     new_board.board = check_board
-    @board.each_with_index do |row, index|
-      row.each do |piece|
-        duped_piece = (piece.nil? ? nil : piece.dup)
-        duped_piece.set_board(new_board) if duped_piece
-        check_board[index] << duped_piece
-        if piece.is_a?(King)
-          new_board.kings[piece.color] = duped_piece
+    @board.each_with_index do |row, row_index|
+      row.each_with_index do |piece, col_index|
+        if piece
+          duped_piece = piece.class.new(
+            [col_index, row_index],
+            new_board,
+            piece.color
+          )
+          check_board[row_index][col_index] = duped_piece
+          if piece.is_a?(King)
+            new_board.kings[piece.color] = duped_piece
+          end
         end
       end
     end

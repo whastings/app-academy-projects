@@ -37,7 +37,7 @@ class Pawn < Piece
     move_dirs.each do |x_offset, y_offset|
       new_x, new_y = x + x_offset, y + y_offset
       if ((0..7).cover?(new_x) && (0..7).cover?(new_y))
-        possible_moves << [new_x, new_y] if @board[new_y][new_x].nil?
+        possible_moves << [new_x, new_y] if @board.board[new_y][new_x].nil?
       end
     end
 
@@ -46,7 +46,7 @@ class Pawn < Piece
     diagonals.each do |x_offset, y_offset|
       new_x, new_y = x + x_offset, y + y_offset
       if ((0..7).cover?(new_x) && (0..7).cover?(new_y))
-        other_piece = @board[new_y][new_x]
+        other_piece = @board.board[new_y][new_x]
         possible_moves << [new_x, new_y] if other_piece && other_piece.color != @color
       end
     end

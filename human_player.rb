@@ -2,9 +2,12 @@ require 'dispel'
 
 class HumanPlayer
 
-  def initialize(board)
+  attr_reader :color
+
+  def initialize(board, color)
     @board = board
     @cursor_position = [0, 0]
+    @color = color
   end
 
   def board_string
@@ -48,7 +51,7 @@ class HumanPlayer
         screen.draw board_string, map, cursor_position
       end
     end
-    return positions
+    positions
   end
 
   private
