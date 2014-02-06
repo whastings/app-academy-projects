@@ -64,10 +64,18 @@ class HumanPlayer
 
   def map
     map = Dispel::StyleMap.new(8)
-    # 8.times do |line|
-#       color_spaces = [[3, 4], [11, 12]]
-#       map.add(["#ffffff", "#666699"], line, color_spaces)
-#     end
+    [1, 3, 5, 7].each do |line|
+      map.add(["#ffffff", "#A39DA1"], line, 3..4)
+      map.add(["#ffffff", "#A39DA1"], line, 7..8)
+      map.add(["#ffffff", "#A39DA1"], line, 11..12)
+      map.add(["#ffffff", "#A39DA1"], line, 15..16)
+    end
+    [0, 2, 4, 6, 8].each do |line|
+      map.add(["#ffffff", "#A39DA1"], line, 1..2)
+      map.add(["#ffffff", "#A39DA1"], line, 5..6)
+      map.add(["#ffffff", "#A39DA1"], line, 9..10)
+      map.add(["#ffffff", "#A39DA1"], line, 13..14)
+    end
     map
   end
 

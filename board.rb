@@ -121,7 +121,7 @@ class Board
     board_string = ''
     @board.each do |row|
       row.each do |piece|
-        board_string << (piece.nil? ? "_" : piece.to_s)
+        board_string << (piece.nil? ? " " : piece.to_s)
       end
 
       board_string << "\n"
