@@ -1,0 +1,5 @@
+# Chess To Dos
+
+Remove duplicate `move` logic from SteppingPiece and SlidingPiece
+Handle quiting with q
+Display control instructions to user
