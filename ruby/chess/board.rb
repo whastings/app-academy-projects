@@ -54,7 +54,7 @@ class Board
     move!(start_pos, end_pos)
   end
 
-  # make move even when move puts it in check
+  # Makes move, even if it's illegal.
   def move!(start_pos, end_pos)
     start_x, start_y = start_pos
     end_x, end_y = end_pos
@@ -117,7 +117,6 @@ class Board
   end
 
   def display_board
-    sides = 0
     board_string = ''
     possible_moves = (@current_piece) ? @current_piece.moves : []
     @board.each_with_index do |row, row_index|

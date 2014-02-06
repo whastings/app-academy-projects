@@ -9,11 +9,6 @@ class Piece
     @color = color
   end
 
-  def moves
-    # filter moves out of board
-
-  end
-
   # check if piece can move to end_pos
   def move(position)
     x, y = position

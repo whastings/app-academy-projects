@@ -8,15 +8,6 @@ class Game
     @current_turn = @player1
   end
 
-  def display_board
-    @board.board.each do |row|
-      row.each do |piece|
-        print piece.nil? ? '- ' : piece
-      end
-      puts ''
-    end
-  end
-
   def play
     until @board.checkmate?(:w) || @board.checkmate?(:b)
       begin
