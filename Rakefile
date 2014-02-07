@@ -8,3 +8,11 @@ RSpec::Core::RakeTask.new do |task|
   task.verbose = false
 end
 
+task :play do
+  require "./lib/checkers"
+  game = Checkers::Game.new
+  game.play
+end
+
+task default: :play
+

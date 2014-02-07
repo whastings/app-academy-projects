@@ -40,8 +40,9 @@ module Checkers
       true
     end
 
-    def perform_moves
-
+    def perform_moves(sequence)
+      raise InvalidMoveError unless valid_move_seq?(sequence)
+      perform_moves!(sequence)
     end
 
     def valid_move_seq?(sequence)
