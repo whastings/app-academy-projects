@@ -3,16 +3,15 @@ class Hand
   attr_accessor :contents
 
   HANDS = {
-    high_card: 0,
-    pair: 1,
-    two_pairs: 2,
-    three_kind: 3,
-    straight: 4,
-    flush: 5,
-    full_house: 6,
-    four_kind: 7,
+    royal_flush: 9,
     straight_flush: 8,
-    royal_flush: 9
+    four_kind: 7,
+    full_house: 6,
+    flush: 5,
+    straight: 4,
+    three_kind: 3,
+    two_pair: 2,
+    pair: 1
   }
 
   def initialize(cards)
@@ -20,7 +19,12 @@ class Hand
   end
 
   def score
-
+    HANDS.each do |hand, points|
+      if self.send("has_#{hand}?")
+        return points
+      end
+    end
+    0
   end
 
   def has_pair?
@@ -36,7 +40,7 @@ class Hand
   end
 
   def has_straight?
-    numbers = get_number_frequencies.keys.sort
+    numbers = get_numbers
     numbers.each_with_index do |num, index|
       next if index == numbers.length - 1
       next if num == 1 && numbers[index+1] == 10
@@ -84,4 +88,7 @@ class Hand
     suit_frequencies
   end
 
+  def get_numbers
+    @contents.map { |card| card.num }
+  end
 end

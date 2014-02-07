@@ -15,6 +15,26 @@ describe Hand do
     ]
   end
 
+  let(:royal_flush) do
+    [
+      Card.new(1, :s),
+      Card.new(10, :s),
+      Card.new(11, :s),
+      Card.new(12, :s),
+      Card.new(13, :s)
+    ]
+  end
+
+  let(:full_house) do
+    [
+      Card.new(4, :s),
+      Card.new(4, :s),
+      Card.new(4, :s),
+      Card.new(3, :s),
+      Card.new(3, :s)
+    ]
+  end
+
   subject(:hand) { Hand.new(cards) }
 
   it 'should have a hand' do
@@ -64,6 +84,11 @@ describe Hand do
       expect(subject).to have_straight
     end
 
+    it "should return false for a full house" do
+      subject.contents = full_house
+      expect(subject).to_not have_straight
+    end
+
     describe 'highest straight' do
 
       before do
@@ -101,13 +126,7 @@ describe Hand do
 
   describe '#has_full_house?' do
     before do
-      subject.contents = [
-        Card.new(4, :s),
-        Card.new(4, :s),
-        Card.new(4, :s),
-        Card.new(3, :s),
-        Card.new(3, :s)
-      ]
+      subject.contents = full_house
     end
     it "should return true if you have a full house" do
       expect(subject).to have_full_house
@@ -147,18 +166,35 @@ describe Hand do
 
 
   describe '#has_royal_flush?' do
-    before do
-      subject.contents = [
-        Card.new(1, :s),
-        Card.new(10, :s),
-        Card.new(11, :s),
-        Card.new(12, :s),
-        Card.new(13, :s)
-      ]
-    end
+    before { subject.contents = royal_flush }
     it "should return true if you have a four of the same number" do
       expect(subject).to have_royal_flush
     end
+  end
+
+  describe '#score' do
+
+    it "should return 9 if hand is royal flush" do
+      subject.contents = royal_flush
+      expect(subject.score).to eq(9)
+    end
+
+    it "should return 6 if hand is full house" do
+      subject.contents = full_house
+      expect(subject.score).to eq(6)
+    end
+
+    it "should return 0 if you have crap" do
+      subject.contents = [
+        Card.new(1, :d),
+        Card.new(5, :s),
+        Card.new(6, :s),
+        Card.new(7, :s),
+        Card.new(8, :s)
+      ]
+      expect(subject.score).to eq(0)
+    end
+
   end
 
 end
