@@ -18,6 +18,7 @@ class Hand
     @contents = cards
   end
 
+
   def score
     HANDS.each do |hand, points|
       if self.send("has_#{hand}?")
@@ -25,6 +26,11 @@ class Hand
       end
     end
     0
+  end
+
+  def highest_card
+    return 14 if get_numbers.include?(1)
+    get_numbers.max
   end
 
   def has_pair?

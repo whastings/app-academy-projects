@@ -197,4 +197,18 @@ describe Hand do
 
   end
 
+  describe '#highest_card' do
+
+    it 'should return 14 if there is an ace' do
+      expect(subject.highest_card).to eq(14)
+    end
+
+    it 'should return 4 if that is the highest card' do
+      subject.contents = full_house
+      expect(subject.highest_card).to eq(4)
+    end
+
+  end
+
+
 end
