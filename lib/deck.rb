@@ -3,6 +3,8 @@ require 'card'
 class Deck
   include Enumerable
 
+  attr_reader :cards
+
   def initialize
     @cards = []
     @cards = setup
@@ -16,6 +18,21 @@ class Deck
     @cards.length
   end
 
+  def shuffle
+    @cards = @cards.shuffle
+  end
+
+  def pop
+    @cards.pop
+  end
+
+  def draw(num)
+    [].tap do |cards_drawn|
+      num.times { cards_drawn << self.pop }
+    end
+  end
+
+
   private
 
   def setup
@@ -23,5 +40,6 @@ class Deck
       [:h, :d, :s, :c].map { |suit| Card.new(num, suit) }
     end
   end
+
 
 end

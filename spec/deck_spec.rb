@@ -21,4 +21,32 @@ describe Deck do
     end
   end
 
+  describe '#shuffle' do
+    let!(:ordered_cards) { subject.cards.dup }
+    it "should randomize card order" do
+      subject.shuffle
+      expect(subject.cards).to_not eq(ordered_cards)
+    end
+  end
+
+  describe '#pop' do
+
+  it "should pop off 'top' card" do
+    expect(subject.pop.to_s).to eq('13c')
+    expect(subject.pop.to_s).to eq('13s')
+  end
+
+  end
+
+  describe '#draw' do
+
+    it "should draw numbers of cards" do
+      cards_drawn = subject.draw(5).map(&:to_s)
+      expect(cards_drawn).to eq(['12c', '13h', '13d', '13s', '13c'].reverse)
+    end
+
+  end
+
+
+
 end
