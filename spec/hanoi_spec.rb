@@ -31,6 +31,22 @@ describe Hanoi do
 
   describe '#won?' do
 
+    it "returns false in beginning" do
+      expect(subject.won?).to be_false
+    end
+
+    describe 'when player won' do
+
+      before do
+        subject.disks[2] = [4,3,2,1]
+      end
+
+      it "tells if player won" do
+        expect(subject.won?).to be_true
+      end
+
+    end
+
   end
 
 end

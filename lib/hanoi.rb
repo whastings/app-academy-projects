@@ -18,4 +18,22 @@ class Hanoi
     end
   end
 
+  def won?
+    @disks.last == [4,3,2,1]
+  end
+
+  # def render
+#     @disks.flatten.map do |disk|
+#       if disk.nil?
+#         " "
+#       else
+#         "-" * disk
+#       end
+#     end
+#
+#     @disks.map do |row|
+#       @disks.
+#
+#   end
+
 end
