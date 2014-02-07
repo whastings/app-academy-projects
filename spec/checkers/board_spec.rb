@@ -16,7 +16,7 @@ describe Checkers::Board do
   subject { board }
   let!(:piece) { @piece }
   before do
-    @piece = piece_double
+    @piece = Checkers::Piece.new([0, 2], :white, board)
   end
 
   describe "#initialize" do
@@ -42,7 +42,6 @@ END
       allow(@piece).to receive(:perform_slide).and_return(true)
       expect(@piece).to receive(:perform_slide).with([1, 3])
       expect(board.move([0, 2], [1, 3])).to be_true
-      expect(board[1, 3]).to eq(@piece)
     end
     it "throws an exception if it can't move a piece" do
       allow(@piece).to receive(:perform_slide).and_return(false)
@@ -66,10 +65,9 @@ END
       before do
         board[0, 6] = @piece
         board[1, 7] = nil
+        @piece.position = [0, 6]
       end
       it "should make piece a king" do
-        allow(@piece).to receive(:pos_y).and_return(7)
-        expect(@piece).to receive(:pos_y)
         expect(@piece).to receive(:make_king).once
         board.move([0, 6], [1, 7])
       end

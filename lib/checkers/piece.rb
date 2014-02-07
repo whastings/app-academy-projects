@@ -1,3 +1,5 @@
+require "invalid_move_error"
+
 module Checkers
 
   class Piece
@@ -24,6 +26,7 @@ module Checkers
       return false unless @board[*target_position].nil?
       return false unless possible_moves.include?(target_position)
       @position = target_position
+      update_board(target_position)
       true
     end
 
@@ -33,7 +36,35 @@ module Checkers
       return false if @board[*jumped_position].color == @color
       @board[*jumped_position] = nil
       @position = target_position
+      update_board(target_position)
       true
+    end
+
+    def perform_moves
+
+    end
+
+    def valid_move_seq?(sequence)
+      duped_board = @board.dup
+      valid = true
+      begin
+        duped_board[*@position].perform_moves!(sequence)
+      rescue InvalidMoveError
+        valid = false
+      end
+      valid
+    end
+
+    def perform_moves!(sequence)
+      sequence.each do |move|
+        result = true
+        if sequence.count == 1
+          result = perform_slide(move) || perform_jump(move)
+        else
+          result = perform_jump(move)
+        end
+        raise InvalidMoveError unless result
+      end
     end
 
     def make_king
@@ -41,6 +72,11 @@ module Checkers
     end
 
     private
+
+    def update_board(target_position)
+      @board[*target_position] = self
+      @board[*@position] = nil
+    end
 
     def possible_moves
       directions.map do |dir_x, dir_y|

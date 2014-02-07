@@ -2,8 +2,9 @@ require "rspec"
 
 describe Checkers::Piece do
   before do
-    @board = Checkers::Board.new
+    @board = Checkers::Board.new(false)
     @piece = Checkers::Piece.new([0, 2], :white, @board)
+    @board[0, 2] = @piece
   end
   subject { @piece }
 
@@ -65,7 +66,6 @@ describe Checkers::Piece do
     it "can jump over a piece to an empty space" do
       expect(@board).to receive(:[]).twice.with(1, 3)
         .and_return(double("other piece", color: :black))
-      expect(@board).to receive(:[]=).with(1, 3, nil)
       expect(@board).to receive(:[]).at_least(:once).and_call_original
       expect(@piece.perform_jump([2, 4])).to be_true
     end
@@ -82,6 +82,22 @@ describe Checkers::Piece do
     it "can't jump over a piece of its own color" do
       @board[1, 3] = double("other piece", color: :white)
       expect(@piece.perform_jump([2, 4])).to be_false
+    end
+  end
+
+  describe "#valid_move_seq?" do
+    let(:move_seq) { [[2, 4], [4, 6]] }
+    before do
+      @board[1, 3] = double("other piece 1", color: :black, position: [1, 3])
+      @board[3, 5] = double("other piece 2", color: :black, position: [3, 5])
+    end
+    it "says a valid multi-jump is valid" do
+      expect(@piece.valid_move_seq?(move_seq)).to be_true
+    end
+
+    it "says an invalid multi-jump is invalid" do
+      @board[4, 6] = double("blocking piece", color: :black, position: [4, 6])
+      expect(@piece.valid_move_seq?(move_seq)).to be_false
     end
   end
 

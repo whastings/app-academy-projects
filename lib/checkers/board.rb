@@ -3,10 +3,12 @@ require "piece"
 module Checkers
 
   class Board
-    def initialize
+    def initialize(should_fill = true)
       @rows = Array.new(8) { Array.new(8) }
-      fill((0..2), :white)
-      fill((5..7), :black)
+      if should_fill
+        fill((0..2), :white)
+        fill((5..7), :black)
+      end
     end
 
     def [](x, y)
@@ -20,14 +22,11 @@ module Checkers
     def move(start_pos, end_pos)
       piece = self[*start_pos]
       raise ArgumentError, "Piece to move doesn't exist." if piece.nil?
-      if piece.perform_slide(end_pos) || piece.perform_jump(end_pos)
-        self[*start_pos] = nil
-        self[*end_pos] = piece
-        maybe_promote(piece)
-        true
-      else
+      unless piece.perform_slide(end_pos) || piece.perform_jump(end_pos)
         raise ArgumentError, "The selected piece can't move there."
       end
+      maybe_promote(piece)
+      true
     end
 
     def render
@@ -45,6 +44,14 @@ module Checkers
         render_string << "\n"
       end
       render_string
+    end
+
+    def dup
+      new_board = self.class.new(false)
+      @rows.each do |row|
+        row.compact.each { |piece| new_board[*piece.position] = piece.dup }
+      end
+      new_board
     end
 
     private
