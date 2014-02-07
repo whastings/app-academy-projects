@@ -57,7 +57,7 @@ END
       expect(board[1, 3]).to_not eq(@piece)
     end
     it "can have a piece jump another piece" do
-      board[3, 3] = double("piece to jump")
+      board[3, 3] = double("piece to jump", color: :black)
       expect(board.move([2, 2], [4, 4])).to be_true
       expect(board[3, 3]).to be_nil
     end

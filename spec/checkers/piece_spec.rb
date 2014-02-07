@@ -2,7 +2,7 @@ require "rspec"
 
 describe Checkers::Piece do
   before do
-    @board = double("board", :[] => nil)
+    @board = Checkers::Board.new
     @piece = Checkers::Piece.new([0, 2], :white, @board)
   end
   subject { @piece }
@@ -63,17 +63,24 @@ describe Checkers::Piece do
   describe "#perform_jump" do
     before { @piece.position = [0, 2] }
     it "can jump over a piece to an empty space" do
-      expect(@board).to receive(:[]).with(1, 3)
-        .and_return(double("other piece"))
+      expect(@board).to receive(:[]).twice.with(1, 3)
+        .and_return(double("other piece", color: :black))
       expect(@board).to receive(:[]=).with(1, 3, nil)
+      expect(@board).to receive(:[]).at_least(:once).and_call_original
       expect(@piece.perform_jump([2, 4])).to be_true
     end
 
     it "can't jump over a piece if the next space is occupied" do
       expect(@board).to receive(:[]).with(1, 3)
-        .and_return(double("other piece"))
+        .and_return(double("other piece", color: :black))
       expect(@board).to receive(:[]).with(2, 4)
         .and_return(double("blocking piece"))
+      expect(@board).to receive(:[]).at_least(:once).and_call_original
+      expect(@piece.perform_jump([2, 4])).to be_false
+    end
+
+    it "can't jump over a piece of its own color" do
+      @board[1, 3] = double("other piece", color: :white)
       expect(@piece.perform_jump([2, 4])).to be_false
     end
   end

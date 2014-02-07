@@ -30,6 +30,7 @@ module Checkers
     def perform_jump(target_position)
       return false unless possible_jumps.include?(target_position)
       jumped_position = jumped_piece(target_position)
+      return false if @board[*jumped_position].color == @color
       @board[*jumped_position] = nil
       @position = target_position
       true
