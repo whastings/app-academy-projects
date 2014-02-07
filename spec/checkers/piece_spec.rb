@@ -65,6 +65,7 @@ describe Checkers::Piece do
     it "can jump over a piece to an empty space" do
       expect(@board).to receive(:[]).with(1, 3)
         .and_return(double("other piece"))
+      expect(@board).to receive(:[]=).with(1, 3, nil)
       expect(@piece.perform_jump([2, 4])).to be_true
     end
 

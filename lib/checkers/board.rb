@@ -20,7 +20,7 @@ module Checkers
     def move(start_pos, end_pos)
       piece = self[*start_pos]
       raise ArgumentError, "Piece to move doesn't exist." if piece.nil?
-      if piece.perform_slide(end_pos)
+      if piece.perform_slide(end_pos) || piece.perform_jump(end_pos)
         self[*start_pos] = nil
         self[*end_pos] = piece
         maybe_promote(piece)

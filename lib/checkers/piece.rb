@@ -29,6 +29,8 @@ module Checkers
 
     def perform_jump(target_position)
       return false unless possible_jumps.include?(target_position)
+      jumped_position = jumped_piece(target_position)
+      @board[*jumped_position] = nil
       @position = target_position
       true
     end
@@ -63,6 +65,12 @@ module Checkers
         possibilities << jump_position if @board[*jump_position].nil?
       end
       possibilities
+    end
+
+    def jumped_piece(target_position)
+      x, y = target_position
+      diff_x, diff_y = x + pos_x, y + pos_y
+      [diff_x / 2, diff_y / 2]
     end
   end
 
