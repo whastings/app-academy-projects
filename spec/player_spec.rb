@@ -15,7 +15,8 @@ describe Player do
     ]
   end
   let(:hand) { Hand.new(cards) }
-  subject(:player) { Player.new("Bob", hand, 10) }
+  subject(:player) { Player.new("Bob", 20) }
+  before { player.hand = hand }
 
   describe '#hand' do
     its(:hand) { should == hand }
@@ -40,22 +41,50 @@ describe Player do
     end
   end
 
-  describe '#turn_choice' do
-
-    it "should return amount to raise if player raises" do
-      subject.stub(:get_user_input).and_return("r", "5")
-      expect(subject.turn_choice).to eq(5)
+  describe '#place_bet' do
+    let(:highest_bet) { 5 }
+    it "should return amount higher than highest bet if player raises" do
+      subject.stub(:get_user_input).and_return("r", "15")
+      expect(subject.place_bet(highest_bet)).to eq(15)
     end
 
     it 'should raise error if user chooses to raise more than he has' do
-      subject.stub(:get_user_input).and_return("r", "12")
-      expect { subject.turn_choice }.to raise_error(ArgumentError)
+      subject.stub(:get_user_input).and_return("r", "25")
+      expect { subject.place_bet(highest_bet) }.to raise_error(ArgumentError)
+    end
+
+    it "should raise error if player tries to raise less than highest best" do
+      subject.stub(:get_user_input).and_return("r", "4")
+      expect { subject.place_bet(highest_bet) }.to raise_error(ArgumentError)
     end
 
     it "should decrease user's pot by amount raised" do
-      subject.stub(:get_user_input).and_return("r", "4")
-      expect { subject.turn_choice }.to change { subject.pot }.by(-4)
+      subject.stub(:get_user_input).and_return("r", "6")
+      expect { subject.place_bet(highest_bet) }.to change { subject.pot }.by(-6)
     end
+
+    context "when player sees" do
+      before { subject.stub(:get_user_input).and_return("s") }
+
+      it "should return amount equal to highest bet if player sees" do
+        expect(subject.place_bet(highest_bet)).to eq(highest_bet)
+      end
+
+      it "should decrease player's pot by highest bet if player sees" do
+        expect { subject.place_bet(highest_bet) }.to change { subject.pot }.by(-5)
+      end
+
+      it "should not let player see if highest bet is more than her pot" do
+        subject.pot = 3
+        expect { subject.place_bet(highest_bet) }.to raise_error(ArgumentError)
+      end
+    end
+
+    it "should return -1 if player folds" do
+      subject.stub(:get_user_input).and_return("f")
+      expect(subject.place_bet(highest_bet)).to eq(-1)
+    end
+
 
   end
 

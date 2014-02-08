@@ -1,8 +1,8 @@
 class Player
   attr_accessor :hand, :name, :pot
 
-  def initialize(name, hand, pot)
-    @name, @hand, @pot = name, hand, pot
+  def initialize(name, pot)
+    @name, @hand, @pot = name, nil, pot
   end
 
   def discard_cards
@@ -16,16 +16,22 @@ class Player
     return cards_selected.count
   end
 
-  def turn_choice
+  def place_bet(highest_bet)
     choice = get_user_input
     case choice
     when 'r'
       amount_to_raise = get_user_input.to_i
-      raise ArgumentError if amount_to_raise > @pot
+      if amount_to_raise > @pot || amount_to_raise < highest_bet
+        raise ArgumentError
+      end
       @pot -= amount_to_raise
       amount_to_raise
     when 's'
-      0
+      if highest_bet > @pot
+        raise ArgumentError, "You don't have enough in your pot to see."
+      end
+      @pot -= highest_bet
+      highest_bet
     when 'f'
       -1
     end
