@@ -16,6 +16,9 @@ class Player
     unless cards_selected.all? { |index| (1..5).cover?(index) }
       raise ArgumentError, "You selected invalid cards."
     end
+    if cards_selected.count > 3
+      raise ArgumentError, "You can only discard at most three cards."
+    end
     cards_selected.each { |index| @hand.contents.delete_at(index - 1) }
     return cards_selected.count
   end
@@ -32,6 +35,8 @@ class Player
       see(highest_bet)
     when 'f'
       -1
+    else
+      raise ArgumentError, "That's an invalid choice."
     end
   end
 

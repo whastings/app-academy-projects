@@ -39,6 +39,11 @@ describe Player do
       subject.stub(:get_user_input).and_return("0,6,100")
       expect { subject.discard_cards }.to raise_error(ArgumentError)
     end
+
+    it "should raise error if user tries to discard more than 3 cards" do
+      subject.stub(:get_user_input).and_return("1 2 4 5")
+      expect { subject.discard_cards }.to raise_error(ArgumentError)
+    end
   end
 
   describe '#place_bet' do
@@ -85,6 +90,10 @@ describe Player do
       expect(subject.place_bet(highest_bet)).to eq(-1)
     end
 
+    it "should raise error if user enters invalid first choice" do
+      subject.stub(:get_user_input).and_return("y")
+      expect { subject.place_bet(highest_bet) }.to raise_error(ArgumentError)
+    end
 
   end
 

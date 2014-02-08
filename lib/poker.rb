@@ -23,7 +23,12 @@ class Poker
   def take_bets
     highest_bet, players_to_remove = 1, []
     @players.each do |player|
-      player_bet = player.place_bet(highest_bet)
+      begin
+        player_bet = player.place_bet(highest_bet)
+      rescue ArgumentError => error
+        puts error.message
+        retry
+      end
       if player_bet == -1
         players_to_remove << player
         next
@@ -36,7 +41,12 @@ class Poker
 
   def play_draw
     @players.each do |player|
-      num_cards = player.discard_cards
+      begin
+        num_cards = player.discard_cards
+      rescue ArgumentError => error
+        puts error.message
+        retry
+      end
       player.add_cards(@deck.draw(num_cards)) if num_cards > 0
     end
   end
