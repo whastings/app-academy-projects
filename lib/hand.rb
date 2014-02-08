@@ -34,11 +34,11 @@ class Hand
   end
 
   def has_pair?
-    get_number_frequencies.any? { |num,count| count == 2 }
+    has_repeated_number?(2)
   end
 
   def has_three_kind?
-    get_number_frequencies.any? { |num,count| count == 3 }
+    has_repeated_number?(3)
   end
 
   def has_two_pair?
@@ -64,7 +64,7 @@ class Hand
   end
 
   def has_four_kind?
-    get_number_frequencies.any? { |num, count| count == 4 }
+    has_repeated_number?(4)
   end
 
   def has_straight_flush?
@@ -97,4 +97,9 @@ class Hand
   def get_numbers
     @contents.map { |card| card.num }
   end
+
+  def has_repeated_number?(repeats)
+    get_number_frequencies.any? { |num,count| count == repeats }
+  end
+
 end
