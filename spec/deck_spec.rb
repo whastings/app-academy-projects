@@ -31,10 +31,10 @@ describe Deck do
 
   describe '#pop' do
 
-  it "should pop off 'top' card" do
-    expect(subject.pop.to_s).to eq('13c')
-    expect(subject.pop.to_s).to eq('13s')
-  end
+    it "should pop off 'top' card" do
+      expect(subject.pop.to_s).to eq('13c')
+      expect(subject.pop.to_s).to eq('13s')
+    end
 
   end
 
