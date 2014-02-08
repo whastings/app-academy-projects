@@ -10,4 +10,8 @@ class Card
     "#{@num}#{@suit}"
   end
 
+  def == other_card
+    to_s == other_card.to_s
+  end
+
 end
