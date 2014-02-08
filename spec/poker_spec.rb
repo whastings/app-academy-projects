@@ -59,4 +59,26 @@ describe Poker do
     end
   end
 
+  describe "#determine_winner" do
+    context "when there's a winner" do
+      before do
+        expect(players.first).to receive(:score).and_return(5).at_least(:once)
+        expect(players.last).to receive(:score).and_return(4).at_least(:once)
+      end
+      it "should return the player with the highest score" do
+        expect(subject.determine_winner).to eq([players.first])
+      end
+    end
+
+    context "when there's a tie" do
+      before do
+        expect(players.first).to receive(:score).and_return(5).at_least(:once)
+        expect(players.last).to receive(:score).and_return(5).at_least(:once)
+      end
+      it "should return the tied players" do
+        expect(subject.determine_winner).to eq players
+      end
+    end
+  end
+
 end

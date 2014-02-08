@@ -41,4 +41,8 @@ class Player
     @hand.contents.concat(cards)
   end
 
+  def score
+    @hand.score
+  end
+
 end

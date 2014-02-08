@@ -38,4 +38,15 @@ class Poker
     end
   end
 
+  def determine_winner
+    winners = []
+    winners << @players.max do |player1, player2|
+      player1.score <=> player2.score
+    end
+    winners.concat(@players.select do |player|
+      player.score == winners.first.score && player != winners.first
+    end )
+    winners
+  end
+
 end
