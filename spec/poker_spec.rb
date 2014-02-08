@@ -46,7 +46,7 @@ describe Poker do
     end
 
     it "should pass successive players the current highest bet" do
-      expect(players.first).to receive(:place_bet).with(0).and_return(2)
+      expect(players.first).to receive(:place_bet).with(1).and_return(2)
       expect(players.last).to receive(:place_bet).with(2).and_return(2)
       subject.take_bets
     end

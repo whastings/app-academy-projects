@@ -14,10 +14,9 @@ class Hand
     pair: 1
   }
 
-  def initialize(cards)
+  def initialize(cards = [])
     @contents = cards
   end
-
 
   def score
     HANDS.each do |hand, points|
@@ -74,6 +73,10 @@ class Hand
   def has_royal_flush?
     numbers = get_number_frequencies.keys.sort
     has_flush? && numbers == [1,10,11,12,13]
+  end
+
+  def to_s
+    @contents.map(&:to_s).join(" - ")
   end
 
   private

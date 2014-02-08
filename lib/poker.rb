@@ -1,3 +1,6 @@
+
+$LOAD_PATH << File.dirname(__FILE__)
+
 require 'deck'
 require 'player'
 
@@ -18,7 +21,7 @@ class Poker
   end
 
   def take_bets
-    highest_bet, players_to_remove = 0, []
+    highest_bet, players_to_remove = 1, []
     @players.each do |player|
       player_bet = player.place_bet(highest_bet)
       if player_bet == -1
@@ -49,4 +52,25 @@ class Poker
     winners
   end
 
+  def play
+    deal_cards
+    take_bets
+    play_draw
+    take_bets
+    winners = determine_winner
+    if winners.count == 1
+      puts "And the winner is: #{winners.first.name}"
+    else
+      winners_names = winners.map { |winner| winner.name }.join(", ")
+      puts "And the winners are: #{winners_names}"
+    end
+  end
+
+end
+
+if __FILE__ == $PROGRAM_NAME
+  player1 = Player.new("Player 1", 5)
+  player2 = Player.new("Player 2", 5)
+  game = Poker.new([player1, player2])
+  game.play
 end
