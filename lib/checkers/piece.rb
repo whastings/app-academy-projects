@@ -25,8 +25,8 @@ module Checkers
     def perform_slide(target_position)
       return false unless @board[*target_position].nil?
       return false unless possible_moves.include?(target_position)
-      @position = target_position
       update_board(target_position)
+      @position = target_position
       true
     end
 
@@ -35,8 +35,8 @@ module Checkers
       jumped_position = jumped_piece(target_position)
       return false if @board[*jumped_position].color == @color
       @board[*jumped_position] = nil
-      @position = target_position
       update_board(target_position)
+      @position = target_position
       true
     end
 

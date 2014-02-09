@@ -46,6 +46,11 @@ describe Checkers::Piece do
         expect(@piece.perform_slide([1, 3])).to be_true
         expect(@piece.position).to eq([1, 3])
       end
+      it "updates the board with its new position" do
+        expect(@board).to receive(:[]=).with(3, 3, @piece)
+        expect(@board).to receive(:[]=).with(2, 2, nil)
+        @piece.perform_slide([3, 3])
+      end
     end
 
     context "as a king" do
