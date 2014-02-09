@@ -1,0 +1,6 @@
+# Poker To Dos
+
+- Allow game to play for multiple rounds
+- Allow folded players to come back next round
+- Have game skip folded players for betting and discarding
+- Keep game going until all but one player has folded or run out of money
