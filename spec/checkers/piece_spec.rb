@@ -30,8 +30,7 @@ describe Checkers::Piece do
       describe "can't move to an occupied position" do
         let(:piece_in_way) { Checkers::Piece.new([1, 3], :black, @board) }
         specify do
-          allow(@board).to receive(:[]).and_return(piece_in_way)
-          expect(@board).to receive(:[]).with(1, 3)
+          expect(@board).to receive(:[]).with(1, 3).and_return(piece_in_way)
           expect(@piece.perform_slide([1, 3])).to be_false
         end
       end

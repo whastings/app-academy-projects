@@ -1,16 +1,5 @@
 require "rspec"
 
-def piece_double
-  double(
-    "piece",
-    color: :white,
-    make_king: true,
-    perform_slide: true,
-    pos_x: 0,
-    pos_y: 0
-  )
-end
-
 describe Checkers::Board do
   let(:board) { Checkers::Board.new }
   subject { board }
@@ -39,14 +28,12 @@ END
   describe "#move" do
     before { board[0, 2] = @piece }
     it "can move a piece" do
-      allow(@piece).to receive(:perform_slide).and_return(true)
-      expect(@piece).to receive(:perform_slide).with([1, 3])
+      expect(@piece).to receive(:perform_slide).with([1, 3]).and_return(true)
       expect(board.move([0, 2], [1, 3])).to be_true
     end
     it "throws an exception if it can't move a piece" do
-      allow(@piece).to receive(:perform_slide).and_return(false)
-      expect(@piece).to receive(:perform_slide).with([1, 3])
-      allow(@piece).to receive(:perform_jump).with([1, 3])
+      expect(@piece).to receive(:perform_slide).with([1, 3]).and_return(false)
+      expect(@piece).to receive(:perform_jump).with([1, 3]).and_return(false)
       expect { board.move([0, 2], [1, 3]) }.to raise_error(ArgumentError)
       expect(board[1, 3]).to_not eq(@piece)
     end
