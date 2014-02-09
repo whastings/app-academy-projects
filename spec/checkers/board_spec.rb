@@ -12,14 +12,15 @@ describe Checkers::Board do
     it "should lay out the board correctly" do
       expect(board.render).to eq(
 <<END
-O_O_O_O_
-_O_O_O_O
-O_O_O_O_
-________
-________
-_X_X_X_X
-X_X_X_X_
-_X_X_X_X
+   0 1 2 3 4 5 6 7
+0  O _ O _ O _ O _
+1  _ O _ O _ O _ O
+2  O _ O _ O _ O _
+3  _ _ _ _ _ _ _ _
+4  _ _ _ _ _ _ _ _
+5  _ X _ X _ X _ X
+6  X _ X _ X _ X _
+7  _ X _ X _ X _ X
 END
       )
     end

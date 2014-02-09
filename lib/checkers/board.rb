@@ -30,15 +30,16 @@ module Checkers
     end
 
     def render
-      render_string = ""
-      @rows.each do |row|
+      render_string = "   0 1 2 3 4 5 6 7\n"
+      @rows.each_with_index do |row, row_index|
+        render_string << "#{row_index} "
         row.each do |position|
           if position.nil?
-            render_string << "_"
+            render_string << " _"
           elsif position.color == :black
-            render_string << "X"
+            render_string << " X"
           else
-            render_string << "O"
+            render_string << " O"
           end
         end
         render_string << "\n"
