@@ -29,6 +29,14 @@ module Checkers
       true
     end
 
+    def color_pieces(color)
+      [].tap do |pieces_found|
+        @rows.flatten.compact.each do |piece|
+          pieces_found << piece if piece.color == color
+        end
+      end
+    end
+
     def render
       render_string = "   0 1 2 3 4 5 6 7\n"
       @rows.each_with_index do |row, row_index|

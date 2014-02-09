@@ -72,6 +72,10 @@ module Checkers
       @is_king = true
     end
 
+    def can_move?
+      possible_moves.any?
+    end
+
     private
 
     def update_board(target_position)

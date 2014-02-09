@@ -62,4 +62,21 @@ END
     end
   end
 
+  describe "#color_pieces" do
+    let(:board) { Checkers::Board.new(false) }
+    let(:black_pieces) { [double("black1"), double("black2"), double("black3")] }
+    before do
+      black_pieces.each do |piece|
+        expect(piece).to receive(:color).and_return(:black)
+      end
+      board[4, 4] = black_pieces[0]
+      board[5, 5] = black_pieces[1]
+      board[6, 6] = black_pieces[2]
+    end
+
+    it "returns all pieces for a color" do
+      expect(board.color_pieces(:black)).to eq(black_pieces)
+    end
+  end
+
 end
