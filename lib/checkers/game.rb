@@ -19,7 +19,7 @@ module Checkers
       until won? || draw?
         puts @board.render
         puts "It's #{@current_player}'s turn"
-        @board.move(*@players[@current_player].play_turn)
+        get_player_input
         @current_player = (@current_player == :white ? :black : :white )
       end
       if won?
@@ -47,6 +47,18 @@ module Checkers
     def winner
       return nil unless won?
       @players.keys.find { |color| !player_lost?(color) }
+    end
+
+    private
+
+    def get_player_input
+      begin
+        moves = @players[@current_player].play_turn
+        @board.move(*moves)
+      rescue ArgumentError => error
+        puts error.message
+        retry
+      end
     end
   end
 

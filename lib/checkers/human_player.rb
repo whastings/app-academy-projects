@@ -11,7 +11,12 @@ module Checkers
     end
 
     def get_input
-      STDIN.gets.chomp.scan(/\d,\d/).first.split(",").map(&:to_i)
+      input = STDIN.gets.chomp
+      input = input.scan(/\d/)
+      unless input.count == 2 && input.all? { |num| (0..7).cover?(num.to_i) }
+        raise ArgumentError, "Position entered was invalid"
+      end
+      input.map(&:to_i)
     end
 
   end
