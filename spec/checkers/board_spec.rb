@@ -30,22 +30,22 @@ END
     before { board[0, 2] = @piece }
     it "can move a piece" do
       expect(@piece).to receive(:perform_slide).with([1, 3]).and_return(true)
-      expect(board.move([0, 2], [1, 3])).to be_true
+      expect(board.move([0, 2], [[1, 3]])).to be_true
     end
     it "throws an exception if it can't move a piece" do
       expect(@piece).to receive(:perform_slide).with([1, 3]).and_return(false)
       expect(@piece).to receive(:perform_jump).with([1, 3]).and_return(false)
-      expect { board.move([0, 2], [1, 3]) }.to raise_error(ArgumentError)
+      expect { board.move([0, 2], [[1, 3]]) }.to raise_error(ArgumentError)
       expect(board[1, 3]).to_not eq(@piece)
     end
     it "throws an exception if piece to move doesn't exist" do
       board[0, 2] = nil
-      expect { board.move([0, 2], [1, 3]) }.to raise_error(ArgumentError)
+      expect { board.move([0, 2], [[1, 3]]) }.to raise_error(ArgumentError)
       expect(board[1, 3]).to_not eq(@piece)
     end
     it "can have a piece jump another piece" do
       board[3, 3] = double("piece to jump", color: :black)
-      expect(board.move([2, 2], [4, 4])).to be_true
+      expect(board.move([2, 2], [[4, 4]])).to be_true
       expect(board[3, 3]).to be_nil
     end
 
@@ -55,9 +55,35 @@ END
         board[1, 7] = nil
         @piece.position = [0, 6]
       end
+
       it "should make piece a king" do
         expect(@piece).to receive(:make_king).once
-        board.move([0, 6], [1, 7])
+        board.move([0, 6], [[1, 7]])
+      end
+    end
+
+    context "with a multi-jump move" do
+      let(:moves) { [[2, 4], [4, 6]] }
+      before do
+        board[1, 3] = board[4, 6]
+        board[4, 6] = nil
+        board[1, 3].position = [1, 3]
+      end
+
+      it "performs valid moves" do
+        board.move([0, 2], moves)
+        expect(board[1, 3]).to be_nil
+        expect(board[3, 5]).to be_nil
+      end
+
+      it "doesn't perform invalid moves" do
+        board[4, 6] = double(
+          "blocking piece",
+          position: [4, 6],
+          color: :black,
+          is_king: false
+        )
+        expect { board.move([0, 2], moves) }.to raise_error(ArgumentError)
       end
     end
   end

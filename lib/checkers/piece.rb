@@ -4,7 +4,7 @@ module Checkers
 
   class Piece
     attr_accessor :position
-    attr_reader :color
+    attr_reader :color, :is_king
 
     WHITE_DIRECTIONS = [[1, 1], [-1, 1]]
     BLACK_DIRECTIONS = [[1, -1], [-1, -1]]

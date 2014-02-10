@@ -19,11 +19,18 @@ module Checkers
       @rows[y][x] = piece
     end
 
-    def move(start_pos, end_pos)
+    def move(start_pos, moves)
       piece = self[*start_pos]
       raise ArgumentError, "Piece to move doesn't exist." if piece.nil?
-      unless piece.perform_slide(end_pos) || piece.perform_jump(end_pos)
-        raise ArgumentError, "The selected piece can't move there."
+      if moves.count == 1
+        end_pos = moves.first
+        unless piece.perform_slide(end_pos) || piece.perform_jump(end_pos)
+          raise ArgumentError, "The selected piece can't move there."
+        end
+      else
+        unless piece.perform_moves(moves)
+          raise ArgumentError, "Selected moves are invalid"
+        end
       end
       maybe_promote(piece)
       true
@@ -58,7 +65,11 @@ module Checkers
     def dup
       new_board = self.class.new(false)
       @rows.each do |row|
-        row.compact.each { |piece| new_board[*piece.position] = piece.dup }
+        row.compact.each do |piece|
+          new_piece = Piece.new(piece.position.dup, piece.color, new_board)
+          new_piece.make_king if piece.is_king
+          new_board[*piece.position] = new_piece
+        end
       end
       new_board
     end
@@ -94,7 +105,7 @@ module Checkers
     def maybe_promote(piece)
       if piece.color == :white && piece.pos_y == 7
         piece.make_king
-      elsif piece.color == :black && piece.pos_y = 0
+      elsif piece.color == :black && piece.pos_y == 0
         piece.make_king
       end
     end

@@ -92,15 +92,26 @@ describe Checkers::Piece do
   describe "#valid_move_seq?" do
     let(:move_seq) { [[2, 4], [4, 6]] }
     before do
-      @board[1, 3] = double("other piece 1", color: :black, position: [1, 3])
-      @board[3, 5] = double("other piece 2", color: :black, position: [3, 5])
+      [[1, 3], [3, 5]].each do |position|
+        @board[*position] = double(
+          'other piece',
+          color: :black,
+          position: position,
+          is_king: false
+        )
+      end
     end
     it "says a valid multi-jump is valid" do
       expect(@piece.valid_move_seq?(move_seq)).to be_true
     end
 
     it "says an invalid multi-jump is invalid" do
-      @board[4, 6] = double("blocking piece", color: :black, position: [4, 6])
+      @board[4, 6] = double(
+        "blocking piece",
+        color: :black,
+        position: [4, 6],
+        is_king: false
+      )
       expect(@piece.valid_move_seq?(move_seq)).to be_false
     end
   end
