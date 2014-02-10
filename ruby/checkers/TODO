@@ -1,0 +1,4 @@
+# Checkers To Do
+
+- Figure out how to rewrite mocks in specs without instance variables.
+- Make output prettier.
