@@ -54,6 +54,10 @@ module Checkers
     def get_player_input
       begin
         moves = @players[@current_player].play_turn
+        piece_to_move = @board[*moves.first]
+        if piece_to_move && piece_to_move.color != @current_player
+          raise ArgumentError, "You can only move your own pieces."
+        end
         @board.move(*moves)
       rescue ArgumentError => error
         puts error.message
