@@ -61,6 +61,7 @@ class QuestionFollower
   end
 
   def self.most_followed_questions(n)
+    raise ArgumentError, 'Number is smaller than one.' if n < 1
     most_followed = <<-SQL
       SELECT
         questions.*

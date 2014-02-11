@@ -72,6 +72,29 @@ class QuestionLike
     questions.map { |question| Question.new(question) }
   end
 
+  def self.most_liked_questions(n)
+    raise ArgumentError, 'Number is smaller than one.' if n < 1
+    most_liked = <<-SQL
+      SELECT
+        questions.*
+      FROM
+        questions
+      INNER JOIN
+        question_likes
+        ON
+        questions.id = question_likes.question_id
+      GROUP BY
+        questions.id
+      ORDER BY
+        COUNT(question_likes.id) DESC
+      LIMIT
+        ?
+    SQL
+
+    questions = QuestionsDatabase.instance.execute(most_liked, n)
+    questions.map { | question| Question.new(question) }
+  end
+
   def initialize(options =  {})
     @id, @user_id, @question_id =
         options.values_at('id', 'user_id', 'question_id')
