@@ -1,6 +1,7 @@
 require_relative "questions_database"
 require_relative "user"
 require_relative "reply"
+require_relative "question_follower"
 
 class Question
   attr_reader :id
@@ -39,6 +40,10 @@ class Question
     questions_data.map{ |question| self.new(question) }
   end
 
+  def self.most_followed(n)
+    QuestionFollower.most_followed_questions(n)
+  end
+
   def initialize(options = {})
     @id, @title, @body, @user_id =
       options.values_at('id', 'title', 'body', 'user_id')
@@ -53,5 +58,8 @@ class Question
     Reply.find_by_question_id(@id)
   end
 
+  def followers
+    QuestionFollower.followers_for_question_id(@id)
+  end
 
 end
