@@ -1,8 +1,10 @@
 require_relative "questions_database"
+require_relative "user"
+require_relative "reply"
 
 class Question
-  attr_accessor :title, :body, :user_id
   attr_reader :id
+  attr_accessor :title, :body, :user_id
 
   def self.all
     results = QuestionsDatabase.instance.execute('SELECT * FROM questions;')
@@ -23,7 +25,7 @@ class Question
     self.new(question_data)
   end
 
-  def self.find_by_author(id)
+  def self.find_by_author_id(id)
     find_questions = <<-SQL
       SELECT
         *
