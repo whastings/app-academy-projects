@@ -1,5 +1,6 @@
 require_relative "questions_database"
 require_relative "question_follower"
+require_relative "question_like"
 
 class User
   attr_reader :id
@@ -54,6 +55,10 @@ class User
 
   def followed_questions
     QuestionFollower.followed_questions_for_user_id(@id)
+  end
+
+  def liked_questions
+    QuestionLike.liked_questions_for_user_id(@id)
   end
 
 end

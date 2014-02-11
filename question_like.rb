@@ -1,0 +1,80 @@
+require_relative "questions_database"
+require_relative "user"
+require_relative "question"
+
+class QuestionLike
+  attr_reader :id
+  attr_accessor :id, :user_id, :question_id
+
+  def self.all
+    results = QuestionsDatabase.instance.execute('SELECT * FROM question_likes;')
+    results.map { |result| self.new(result) }
+  end
+
+  def self.find_by_id(id)
+    find_question = <<-SQL
+      SELECT
+        *
+      FROM
+        question_likes
+      WHERE
+        id = ?
+    SQL
+
+    question_data = QuestionsDatabase.instance.execute(find_question, id)
+    self.new(question_data)
+  end
+
+  def self.likers_for_question_id(question_id)
+    find_likers = <<-SQL
+      SELECT
+        *
+      FROM
+        question_likes
+      INNER JOIN
+        users
+        ON
+          question_likes.user_id = users.id
+      WHERE
+        question_likes.question_id = ?
+    SQL
+    likers = QuestionsDatabase.instance.execute(find_likers, question_id)
+    likers.map { |liker| User.new(liker) }
+  end
+
+  def self.num_likes_for_question_id(question_id)
+    get_count = <<-SQL
+      SELECT
+        COUNT(*) count
+      FROM
+        question_likes
+      WHERE
+        question_likes.question_id = ?
+    SQL
+    count = QuestionsDatabase.instance.execute(get_count, question_id)
+    count.first['count']
+  end
+
+  def self.liked_questions_for_user_id(user_id)
+    find_questions = <<-SQL
+      SELECT
+        *
+      FROM
+        question_likes
+      INNER JOIN
+        questions
+        ON
+          question_likes.question_id = questions.id
+      WHERE
+        question_likes.user_id = ?
+    SQL
+    questions = QuestionsDatabase.instance.execute(find_questions, user_id)
+    questions.map { |question| Question.new(question) }
+  end
+
+  def initialize(options =  {})
+    @id, @user_id, @question_id =
+        options.values_at('id', 'user_id', 'question_id')
+    @db = QuestionsDatabase.instance
+  end
+end
