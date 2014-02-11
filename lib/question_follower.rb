@@ -23,7 +23,7 @@ class QuestionFollower
     SQL
 
     following_data = QuestionsDatabase.instance.execute(find_following, id)
-    self.new(following_data)
+    self.new(*following_data)
   end
 
   def self.followers_for_question_id(question_id)

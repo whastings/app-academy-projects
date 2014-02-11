@@ -22,7 +22,7 @@ class Reply
     SQL
 
     reply_data = QuestionsDatabase.instance.execute(find_reply, id)
-    self.new(reply_data)
+    self.new(*reply_data)
   end
 
   def self.find_by(attr, id)
@@ -35,7 +35,7 @@ class Reply
         #{attr}_id = ?
     SQL
 
-    replies = QuestionDatabase.instance.execute(find_replies, id)
+    replies = QuestionsDatabase.instance.execute(find_replies, id)
 
     replies.map{ |reply| self.new(reply) }
   end

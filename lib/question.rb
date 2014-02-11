@@ -24,7 +24,7 @@ class Question
     SQL
 
     question_data = QuestionsDatabase.instance.execute(find_question, id)
-    self.new(question_data)
+    self.new(*question_data)
   end
 
   def self.find_by_author_id(id)

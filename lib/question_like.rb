@@ -22,7 +22,7 @@ class QuestionLike
     SQL
 
     question_data = QuestionsDatabase.instance.execute(find_question, id)
-    self.new(question_data)
+    self.new(*question_data)
   end
 
   def self.likers_for_question_id(question_id)
