@@ -55,6 +55,8 @@ INSERT INTO
 VALUES
   ('This is a question?', 'Yes it is!',
   (SELECT id FROM users WHERE fname = 'Will')),
+  ('This is my second question?', 'Yes it is my second!',
+  (SELECT id FROM users WHERE fname = 'Will')),
   ('This is another question?', 'Yes it is another one!',
   (SELECT id FROM users WHERE fname = 'Stepan'));
 
@@ -79,4 +81,8 @@ INSERT INTO
   question_likes(question_id, user_id)
 VALUES
   ((SELECT id FROM questions WHERE id = 1),
-   (SELECT id FROM users WHERE id = 2));
+   (SELECT id FROM users WHERE id = 1)),
+  ((SELECT id FROM questions WHERE id = 1),
+   (SELECT id FROM users WHERE id = 2)),
+  ((SELECT id FROM questions WHERE id = 2),
+   (SELECT id FROM users WHERE id = 4));

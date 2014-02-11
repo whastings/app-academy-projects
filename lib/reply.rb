@@ -1,6 +1,6 @@
 require_relative 'questions_database'
 require_relative 'user'
-require_relative 'questions'
+require_relative 'question'
 
 class Reply
   attr_reader :id

@@ -22,7 +22,7 @@ class User
     SQL
 
     user_data = QuestionsDatabase.instance.execute(find_user, id)
-    self.new(user_data)
+    self.new(*user_data)
   end
 
   def self.find_by_name(first_name, last_name)
@@ -64,17 +64,20 @@ class User
   def average_karma
     get_karma = <<-SQL
       SELECT
-        COUNT(question_likes.*)/COUNT(questions.*) AS karma
+        AVG(num_likes) AS karma
       FROM
-        questions
-      INNER JOIN
-        question_likes
-        ON
-          questions.id = question_likes.question_id
-      WHERE
-        questions.user_id = ?
-      GROUP BY
-        questions.id
+        (SELECT
+          COUNT(question_likes.id) AS num_likes
+         FROM
+           question_likes
+         INNER JOIN
+           questions
+           ON
+             question_likes.question_id = questions.id
+         WHERE
+           questions.user_id = ?
+         GROUP BY
+           questions.id)
     SQL
 
     karma = @db.execute(get_karma, @id)
