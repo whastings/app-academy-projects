@@ -68,6 +68,8 @@ INSERT INTO
 VALUES
   ((SELECT id FROM questions WHERE id = 1),
    (SELECT id FROM users WHERE fname = 'Albert')),
+  ((SELECT id FROM questions WHERE id = 1),
+   (SELECT id FROM users WHERE fname = 'Stepan')),
   ((SELECT id FROM questions WHERE id = 2),
    (SELECT id FROM users WHERE fname = 'Neils'));
 
