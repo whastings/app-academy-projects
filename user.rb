@@ -61,4 +61,24 @@ class User
     QuestionLike.liked_questions_for_user_id(@id)
   end
 
+  def average_karma
+    get_karma = <<-SQL
+      SELECT
+        COUNT(question_likes.*)/COUNT(questions.*) AS karma
+      FROM
+        questions
+      INNER JOIN
+        question_likes
+        ON
+          questions.id = question_likes.question_id
+      WHERE
+        questions.user_id = ?
+      GROUP BY
+        questions.id
+    SQL
+
+    karma = @db.execute(get_karma, @id)
+    karma.first['karma']
+  end
+
 end
