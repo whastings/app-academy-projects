@@ -69,9 +69,9 @@ class User
         (SELECT
           COUNT(question_likes.id) AS num_likes
          FROM
-           question_likes
-         INNER JOIN
            questions
+         LEFT OUTER JOIN
+           question_likes
            ON
              question_likes.question_id = questions.id
          WHERE

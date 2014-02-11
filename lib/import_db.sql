@@ -57,6 +57,8 @@ VALUES
   (SELECT id FROM users WHERE fname = 'Will')),
   ('This is my second question?', 'Yes it is my second!',
   (SELECT id FROM users WHERE fname = 'Will')),
+  ('This is my third question?', 'No likes!',
+  (SELECT id FROM users WHERE fname = 'Will')),
   ('This is another question?', 'Yes it is another one!',
   (SELECT id FROM users WHERE fname = 'Stepan'));
 
