@@ -9,11 +9,6 @@ class Question < QuestionRecord
   attr_reader :id
   attr_accessor :title, :body, :user_id
 
-  def self.all
-    results = QuestionsDatabase.instance.execute('SELECT * FROM questions;')
-    results.map { |result| self.new(result) }
-  end
-
   def self.find_by_id(id)
     find_question = <<-SQL
       SELECT
@@ -50,11 +45,11 @@ class Question < QuestionRecord
     QuestionLike.most_liked_questions(n)
   end
 
-  def attrs
+  def self.attrs
     [:title, :body, :user_id]
   end
 
-  def table_name
+  def self.table_name
     :questions
   end
 

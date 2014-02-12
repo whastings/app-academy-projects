@@ -2,6 +2,11 @@ require_relative "questions_database"
 
 class QuestionRecord
 
+  def self.all
+    results = QuestionsDatabase.instance.execute("SELECT * FROM #{table_name};")
+    results.map { |result| self.new(result) }
+  end
+
   def initialize(options = {} )
     set_attrs(options)
     @id = options['id']
@@ -12,9 +17,13 @@ class QuestionRecord
     self.id.nil? ? create : update
   end
 
-  protected
-  def attrs
+  private
+  def self.attrs
     raise NotImplementedError, "You need to define attributes!"
+  end
+
+  def attrs
+    self.class.attrs
   end
 
   def set_attrs(options)
@@ -23,8 +32,12 @@ class QuestionRecord
     end
   end
 
-  def table_name
+  def self.table_name
      raise NotImplementedError, "You need to define table name!"
+  end
+
+  def table_name
+     self.class.table_name
   end
 
   def attr_values

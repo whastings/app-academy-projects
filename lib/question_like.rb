@@ -7,11 +7,6 @@ class QuestionLike < QuestionRecord
   attr_reader :id
   attr_accessor :id, :user_id, :question_id
 
-  def self.all
-    results = QuestionsDatabase.instance.execute('SELECT * FROM question_likes;')
-    results.map { |result| self.new(result) }
-  end
-
   def self.find_by_id(id)
     find_question = <<-SQL
       SELECT
@@ -96,11 +91,11 @@ class QuestionLike < QuestionRecord
     questions.map { | question| Question.new(question) }
   end
 
-  def attrs
+  def self.attrs
     [:user_id, :question_id]
   end
 
-  def table_name
+  def self.table_name
     :question_likes
   end
 

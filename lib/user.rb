@@ -7,11 +7,6 @@ class User < QuestionRecord
   attr_reader :id
   attr_accessor :first_name, :last_name
 
-  def self.all
-    results = QuestionsDatabase.instance.execute('SELECT * FROM users;')
-    results.map { |result| self.new(result) }
-  end
-
   def self.find_by_id(id)
     find_user = <<-SQL
       SELECT
@@ -41,11 +36,11 @@ class User < QuestionRecord
     self.new(user_data)
   end
 
-  def attrs
+  def self.attrs
     [:first_name, :last_name]
   end
 
-  def table_name
+  def self.table_name
     :users
   end
 
