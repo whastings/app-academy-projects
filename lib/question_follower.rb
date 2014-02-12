@@ -1,8 +1,9 @@
 require_relative 'questions_database'
 require_relative 'user'
 require_relative 'question'
+require_relative 'question_record'
 
-class QuestionFollower
+class QuestionFollower < QuestionRecord
   attr_reader :id
   attr_accessor :user_id, :question_id
 
@@ -87,7 +88,6 @@ class QuestionFollower
   def initialize(options = {})
     @id, @user_id, @question_id =
       options.values_at('id', 'user_id', 'question_id')
-    @db = QuestionsDatabase.instance
   end
 
 end

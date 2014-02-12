@@ -1,8 +1,9 @@
 require_relative "questions_database"
 require_relative "question_follower"
 require_relative "question_like"
+require_relative 'question_record'
 
-class User
+class User < QuestionRecord
   attr_reader :id
   attr_accessor :first_name, :last_name
 
@@ -42,7 +43,6 @@ class User
 
   def initialize(options = {})
     @id, @first_name, @last_name = options.values_at('id', 'fname', 'lname')
-    @db = QuestionsDatabase.instance
   end
 
   def authored_questions
