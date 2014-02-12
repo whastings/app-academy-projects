@@ -49,10 +49,12 @@ class Reply < QuestionRecord
     find_by("user", id)
   end
 
-  def initialize(options = {})
-    super()
-    @id, @user_id, @question_id, @parent_reply_id, @body =
-      options.values_at('id', 'user_id', 'question_id', 'parent_reply_id', 'body')
+  def attrs
+    [:user_id, :question_id, :parent_reply_id, :body]
+  end
+
+  def table_name
+    :replies
   end
 
   def author

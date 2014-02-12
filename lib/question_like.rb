@@ -96,9 +96,12 @@ class QuestionLike < QuestionRecord
     questions.map { | question| Question.new(question) }
   end
 
-  def initialize(options =  {})
-    super()
-    @id, @user_id, @question_id =
-        options.values_at('id', 'user_id', 'question_id')
+  def attrs
+    [:user_id, :question_id]
   end
+
+  def table_name
+    :question_likes
+  end
+
 end

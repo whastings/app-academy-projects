@@ -41,11 +41,6 @@ class User < QuestionRecord
     self.new(user_data)
   end
 
-  def initialize(options = {})
-    super()
-    @id, @first_name, @last_name = options.values_at('id', 'first_name', 'last_name')
-  end
-
   def attrs
     [:first_name, :last_name]
   end

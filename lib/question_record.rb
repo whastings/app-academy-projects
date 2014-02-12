@@ -2,7 +2,9 @@ require_relative "questions_database"
 
 class QuestionRecord
 
-  def initialize
+  def initialize(options = {} )
+    set_attrs(options)
+    @id = options['id']
     @db = QuestionsDatabase.instance
   end
 
@@ -11,9 +13,14 @@ class QuestionRecord
   end
 
   protected
-
   def attrs
     raise NotImplementedError, "You need to define attributes!"
+  end
+
+  def set_attrs(options)
+    attrs.each do |attr|
+      self.instance_variable_set("@#{attr}", options["#{attr}"])
+    end
   end
 
   def table_name

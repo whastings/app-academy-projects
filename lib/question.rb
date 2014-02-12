@@ -50,10 +50,12 @@ class Question < QuestionRecord
     QuestionLike.most_liked_questions(n)
   end
 
-  def initialize(options = {})
-    super()
-    @id, @title, @body, @user_id =
-      options.values_at('id', 'title', 'body', 'user_id')
+  def attrs
+    [:title, :body, :user_id]
+  end
+
+  def table_name
+    :questions
   end
 
   def author
