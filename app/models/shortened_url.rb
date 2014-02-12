@@ -3,6 +3,15 @@ class ShortenedUrl < ActiveRecord::Base
   validates :long_url, presence: true, uniqueness: true
   validates :submitter_id, presence: true
 
+  has_many(
+    :visits,
+    primary_key: :id,
+    foreign_key: :shortened_url_id,
+    class_name: "Visit"
+  )
+
+  has_many :visitors, through: :visits, source: :visitor
+
   belongs_to(
     :submitter,
     primary_key: :id,
