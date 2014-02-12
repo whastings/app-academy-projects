@@ -1,7 +1,7 @@
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
-  fname VARCHAR(255) NOT NULL,
-  lname VARCHAR(255) NOT NULL
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE questions (
@@ -42,7 +42,7 @@ CREATE TABLE question_likes (
 
 /* users */
 INSERT INTO
-  users (fname, lname)
+  users (first_name, last_name)
 VALUES
   ('Albert', 'Einstein'),
   ('Neils', 'Bohr'),
@@ -54,24 +54,24 @@ INSERT INTO
   questions(title, body, user_id)
 VALUES
   ('This is a question?', 'Yes it is!',
-  (SELECT id FROM users WHERE fname = 'Will')),
+  (SELECT id FROM users WHERE first_name = 'Will')),
   ('This is my second question?', 'Yes it is my second!',
-  (SELECT id FROM users WHERE fname = 'Will')),
+  (SELECT id FROM users WHERE first_name = 'Will')),
   ('This is my third question?', 'No likes!',
-  (SELECT id FROM users WHERE fname = 'Will')),
+  (SELECT id FROM users WHERE first_name = 'Will')),
   ('This is another question?', 'Yes it is another one!',
-  (SELECT id FROM users WHERE fname = 'Stepan'));
+  (SELECT id FROM users WHERE first_name = 'Stepan'));
 
 /* question followers */
 INSERT INTO
   question_followers( question_id, user_id)
 VALUES
   ((SELECT id FROM questions WHERE id = 1),
-   (SELECT id FROM users WHERE fname = 'Albert')),
+   (SELECT id FROM users WHERE first_name = 'Albert')),
   ((SELECT id FROM questions WHERE id = 1),
-   (SELECT id FROM users WHERE fname = 'Stepan')),
+   (SELECT id FROM users WHERE first_name = 'Stepan')),
   ((SELECT id FROM questions WHERE id = 2),
-   (SELECT id FROM users WHERE fname = 'Neils'));
+   (SELECT id FROM users WHERE first_name = 'Neils'));
 
 /* replies */
 INSERT INTO

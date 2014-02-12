@@ -12,7 +12,7 @@ describe User do
 
   describe "#save" do
     before(:all) do
-      @new_user = User.new('fname' => "Tutes", 'lname' => "Butes")
+      @new_user = User.new('first_name' => "Tutes", 'last_name' => "Butes")
     end
     context "#create" do
       it "should add the user to the database" do

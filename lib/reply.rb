@@ -50,6 +50,7 @@ class Reply < QuestionRecord
   end
 
   def initialize(options = {})
+    super()
     @id, @user_id, @question_id, @parent_reply_id, @body =
       options.values_at('id', 'user_id', 'question_id', 'parent_reply_id', 'body')
   end

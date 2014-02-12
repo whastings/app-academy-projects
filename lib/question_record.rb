@@ -11,27 +11,43 @@ class QuestionRecord
   end
 
   protected
+
+  def attrs
+    raise NotImplementedError, "You need to define attributes!"
+  end
+
+  def table_name
+     raise NotImplementedError, "You need to define table name!"
+  end
+
+  def attr_values
+    attrs.map{ |attr| self.send(attr) }
+  end
+
   def create
-    create_user = <<-SQL
+    attrs_placeholders = attrs.map{|attr| "?" }.join(', ')
+
+    create_obj = <<-SQL
       INSERT INTO
-        users (fname, lname)
+        #{table_name} (#{attrs.join(', ')})
       VALUES
-        (?, ?)
+        (#{attrs_placeholders})
     SQL
 
-    @db.execute(create_user, @first_name, @last_name)
+    @db.execute(create_obj, *attr_values)
     @id = @db.last_insert_row_id
   end
 
   def update
-    update_user = <<-SQL
+    attrs_set = attrs.map{|attr| "#{attr} = ?" }.join(', ')
+    update_obj = <<-SQL
       UPDATE
-        users
+        #{table_name}
       SET
-        fname = ?, lname = ?
+        #{attrs_set}
       WHERE
-      users.id = ?
+        id = ?
     SQL
-    @db.execute(update_user, @first_name, @last_name, @id)
+    @db.execute(update_obj, *attr_values, @id)
   end
 end

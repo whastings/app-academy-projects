@@ -33,8 +33,8 @@ class User < QuestionRecord
       FROM
         users
       WHERE
-        fname = ?
-        AND lname = ?
+        first_name = ?
+        AND last_name = ?
     SQL
 
     user_data = QuestionsDatabase.instance.execute(find_user, first_name, last_name)
@@ -42,7 +42,16 @@ class User < QuestionRecord
   end
 
   def initialize(options = {})
-    @id, @first_name, @last_name = options.values_at('id', 'fname', 'lname')
+    super()
+    @id, @first_name, @last_name = options.values_at('id', 'first_name', 'last_name')
+  end
+
+  def attrs
+    [:first_name, :last_name]
+  end
+
+  def table_name
+    :users
   end
 
   def authored_questions
@@ -82,35 +91,6 @@ class User < QuestionRecord
 
     karma = @db.execute(get_karma, @id)
     karma.first['karma']
-  end
-
-  def save
-    self.id.nil? ? create : update
-  end
-
-  protected
-  def create
-    create_user = <<-SQL
-      INSERT INTO
-        users (fname, lname)
-      VALUES
-        (?, ?)
-    SQL
-
-    @db.execute(create_user, @first_name, @last_name)
-    @id = @db.last_insert_row_id
-  end
-
-  def update
-    update_user = <<-SQL
-      UPDATE
-        users
-      SET
-        fname = ?, lname = ?
-      WHERE
-      users.id = ?
-    SQL
-    @db.execute(update_user, @first_name, @last_name, @id)
   end
 
 

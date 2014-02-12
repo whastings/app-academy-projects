@@ -86,6 +86,7 @@ class QuestionFollower < QuestionRecord
 
 
   def initialize(options = {})
+    super()
     @id, @user_id, @question_id =
       options.values_at('id', 'user_id', 'question_id')
   end

@@ -51,6 +51,7 @@ class Question < QuestionRecord
   end
 
   def initialize(options = {})
+    super()
     @id, @title, @body, @user_id =
       options.values_at('id', 'title', 'body', 'user_id')
   end
