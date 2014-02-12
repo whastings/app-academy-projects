@@ -7,20 +7,6 @@ class QuestionFollower < QuestionRecord
   attr_reader :id
   attr_accessor :user_id, :question_id
 
-  def self.find_by_id(id)
-    find_following = <<-SQL
-      SELECT
-        *
-      FROM
-        question_followers
-      WHERE
-        id = ?
-    SQL
-
-    following_data = QuestionsDatabase.instance.execute(find_following, id)
-    self.new(*following_data)
-  end
-
   def self.followers_for_question_id(question_id)
     find_followers = <<-SQL
       SELECT
@@ -85,4 +71,6 @@ class QuestionFollower < QuestionRecord
   def self.table_name
     :question_followers
   end
+
+  after_inherited(self)
 end

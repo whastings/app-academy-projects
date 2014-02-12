@@ -7,20 +7,6 @@ class QuestionLike < QuestionRecord
   attr_reader :id
   attr_accessor :id, :user_id, :question_id
 
-  def self.find_by_id(id)
-    find_question = <<-SQL
-      SELECT
-        *
-      FROM
-        question_likes
-      WHERE
-        id = ?
-    SQL
-
-    question_data = QuestionsDatabase.instance.execute(find_question, id)
-    self.new(*question_data)
-  end
-
   def self.likers_for_question_id(question_id)
     find_likers = <<-SQL
       SELECT
@@ -99,4 +85,5 @@ class QuestionLike < QuestionRecord
     :question_likes
   end
 
+  after_inherited(self)
 end

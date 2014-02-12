@@ -9,34 +9,6 @@ class Question < QuestionRecord
   attr_reader :id
   attr_accessor :title, :body, :user_id
 
-  def self.find_by_id(id)
-    find_question = <<-SQL
-      SELECT
-        *
-      FROM
-        questions
-      WHERE
-        id = ?
-    SQL
-
-    question_data = QuestionsDatabase.instance.execute(find_question, id)
-    self.new(*question_data)
-  end
-
-  def self.find_by_author_id(id)
-    find_questions = <<-SQL
-      SELECT
-        *
-      FROM
-        questions
-      WHERE
-        user_id = ?
-    SQL
-
-    questions_data = QuestionsDatabase.instance.execute(find_questions, id)
-    questions_data.map{ |question| self.new(question) }
-  end
-
   def self.most_followed(n)
     QuestionFollower.most_followed_questions(n)
   end
@@ -73,4 +45,5 @@ class Question < QuestionRecord
     QuestionLike.num_likes_for_question_id(@id)
   end
 
+  after_inherited(self)
 end

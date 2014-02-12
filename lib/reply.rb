@@ -7,43 +7,6 @@ class Reply < QuestionRecord
   attr_reader :id
   attr_accessor :user_id, :question_id, :parent_reply_id, :body
 
-  def self.find_by_id(id)
-    find_reply = <<-SQL
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        id = ?
-    SQL
-
-    reply_data = QuestionsDatabase.instance.execute(find_reply, id)
-    self.new(*reply_data)
-  end
-
-  def self.find_by(attr, id)
-    find_replies = <<-SQL
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        #{attr}_id = ?
-    SQL
-
-    replies = QuestionsDatabase.instance.execute(find_replies, id)
-
-    replies.map{ |reply| self.new(reply) }
-  end
-
-  def self.find_by_question_id(id)
-    find_by("question", id)
-  end
-
-  def self.find_by_user_id(id)
-    find_by("user", id)
-  end
-
   def self.attrs
     [:user_id, :question_id, :parent_reply_id, :body]
   end
@@ -78,4 +41,6 @@ class Reply < QuestionRecord
     replies = @db.execute(find_children, @id)
     replies.map{ |reply| self.class.new(reply) }
   end
+
+  after_inherited(self)
 end

@@ -7,20 +7,6 @@ class User < QuestionRecord
   attr_reader :id
   attr_accessor :first_name, :last_name
 
-  def self.find_by_id(id)
-    find_user = <<-SQL
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        id = ?
-    SQL
-
-    user_data = QuestionsDatabase.instance.execute(find_user, id)
-    self.new(*user_data)
-  end
-
   def self.find_by_name(first_name, last_name)
     find_user = <<-SQL
       SELECT
@@ -83,6 +69,6 @@ class User < QuestionRecord
     karma.first['karma']
   end
 
-
+  after_inherited(self)
 
 end

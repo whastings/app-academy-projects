@@ -1,10 +1,28 @@
 require_relative "questions_database"
 
 class QuestionRecord
-
   def self.all
     results = QuestionsDatabase.instance.execute("SELECT * FROM #{table_name};")
     results.map { |result| self.new(result) }
+  end
+
+  def self.find_by(attr, value)
+    find_replies = <<-SQL
+      SELECT
+        *
+      FROM
+        #{table_name}
+      WHERE
+        #{attr} = ?
+    SQL
+
+    replies = QuestionsDatabase.instance.execute(find_replies, value)
+
+    replies.map{ |reply| self.new(reply) }
+  end
+
+  def self.find_by_id(id)
+    find_by(:id, id).first
   end
 
   def initialize(options = {} )
@@ -70,4 +88,15 @@ class QuestionRecord
     SQL
     @db.execute(update_obj, *attr_values, @id)
   end
+
+  def self.after_inherited(subclass)
+    subclass.class_eval do
+      attrs.each do |attr|
+        define_singleton_method("find_by_#{attr}".to_sym) do | value |
+          self.find_by(attr, value)
+        end
+      end
+    end
+  end
+
 end
