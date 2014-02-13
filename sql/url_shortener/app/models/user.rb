@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     primary_key: :id,
     foreign_key: :visitor_id,
     class_name: "Visit"
-    )
+  )
 
-    has_many :visited_urls, -> { uniq }, through: :visits, source: :shortened_url
+  has_many :visited_urls, -> { uniq }, through: :visits, source: :shortened_url
 end
