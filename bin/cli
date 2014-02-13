@@ -1,0 +1,51 @@
+def print_tags
+  tags = TagTopic.all
+  tags.each { |tag| puts "#{tag.name}" }
+end
+
+def create_url(user)
+  puts "Type in your long url:"
+  long_url = gets.chomp
+  short_url = ShortenedUrl.create_for_user_and_long_url!(user, long_url)
+  puts "Pick a tag:"
+  print_tags
+  chosen_tag = gets.chomp
+  chosen_tag_obj = TagTopic.find_by_name(chosen_tag)
+  Tagging.create!(tag_topic_id: chosen_tag_obj.id, shortened_url_id: short_url.id)
+  puts "Short url is: #{short_url.short_url}"
+end
+
+def visit_url(user)
+  puts "Type in the shortened URL:"
+  begin
+    short_url = gets.chomp
+    long_url_obj = ShortenedUrl.find_by_short_url(short_url)
+    raise "Short URL not found! Please try again." if long_url_obj.nil?
+  rescue => error
+    puts error.message
+    retry
+  end
+  Visit.record_visit!(user, long_url_obj)
+  Launchy.open(long_url_obj.long_url)
+end
+
+puts "Input your email:"
+email = gets.chomp
+user = User.find_by_email(email)
+if user.nil?
+  puts "Email not found!"
+  exit
+end
+
+puts "What do you want to do?"
+puts "0. Create shortened URL"
+puts "1. Visit shortened URL"
+begin
+  choice = Integer(gets.chomp)
+  raise "Not valid command." unless choice == 0 || choice == 1
+rescue => error
+  puts "Your choice was invalid! Please try again."
+  retry
+end
+
+choice == 1 ? visit_url(user) : create_url(user)
