@@ -10,7 +10,7 @@ class ShortenedUrl < ActiveRecord::Base
     class_name: "Visit"
   )
 
-  has_many :visitors, through: :visits, source: :visitor
+  has_many :visitors, -> { uniq }, through: :visits, source: :visitor
 
   belongs_to(
     :submitter,
@@ -32,6 +32,19 @@ class ShortenedUrl < ActiveRecord::Base
       submitter_id: user.id,
       short_url: random_code
     )
+  end
+
+  def num_clicks
+    self.visits.count
+  end
+
+  def num_uniques
+    self.visits.select(:visitor_id).distinct.count
+  end
+
+  def num_recent_uniques
+    self.visits.select(:visitor_id).distinct.
+      where('created_at > ?', Time.now-10.minutes).count
   end
 
 end
