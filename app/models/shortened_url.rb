@@ -12,6 +12,15 @@ class ShortenedUrl < ActiveRecord::Base
 
   has_many :visitors, -> { uniq }, through: :visits, source: :visitor
 
+  has_many(
+    :taggings,
+    primary_key: :id,
+    foreign_key: :shortened_url_id,
+    class_name: "Tagging"
+  )
+
+  has_many :tag_topics, through: :taggings, source: :tag_topic
+
   belongs_to(
     :submitter,
     primary_key: :id,
