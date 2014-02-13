@@ -1,7 +1,17 @@
+def print_tags
+  tags = TagTopic.all
+  tags.each { |tag| puts "#{tag.name}" }
+end
+
 def create_url(user)
   puts "Type in your long url:"
   long_url = gets.chomp
   short_url = ShortenedUrl.create_for_user_and_long_url!(user, long_url)
+  puts "Pick a tag:"
+  print_tags
+  chosen_tag = gets.chomp
+  chosen_tag_obj = TagTopic.find_by_name(chosen_tag)
+  Tagging.create!(tag_topic_id: chosen_tag_obj.id, shortened_url_id: short_url.id)
   puts "Short url is: #{short_url.short_url}"
 end
 
