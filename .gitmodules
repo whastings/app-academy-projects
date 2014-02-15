@@ -1,0 +1,3 @@
+[submodule "sql/active_record_lite"]
+	path = sql/active_record_lite
+	url = git@github.com:whastings/active_record_lite.git
