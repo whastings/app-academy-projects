@@ -10,6 +10,8 @@
 #  updated_at        :datetime
 #
 
+require 'open-uri'
+
 class Status < ActiveRecord::Base
   validates :twitter_status_id, :twitter_user_id, :body, :presence => true
   validates :twitter_status_id, uniqueness: true
@@ -28,6 +30,10 @@ class Status < ActiveRecord::Base
 
   def self.parse_json(raw_json)
     JSON.parse(raw_json).map do |raw_status|
+      if raw_status["errors"]
+        raise raw_status["errors"].first["message"]
+      end
+
       body = raw_status["text"]
       status_id = raw_status["id_str"]
       user_id = raw_status["user"]["id_str"]
@@ -38,5 +44,29 @@ class Status < ActiveRecord::Base
       )
     end
   end
+
+
+  def self.post(status_text)
+    status_thing = TwitterSession.post("statuses/update", { :status => status_text } )
+    parsed = parse_json("[#{status_thing.body}]")
+    parsed.first.save!
+  end
+
+  def self.get_by_twitter_user_id(user_id)
+    if internet_connection?
+      fetch_by_user_id!(user_id)
+    else
+      Status.where( twitter_user_id: user_id )
+    end
+  end
+
+  def self.internet_connection?
+    begin
+      true if open("http://www.google.com/")
+    rescue
+      false
+    end
+  end
+
 end
 
