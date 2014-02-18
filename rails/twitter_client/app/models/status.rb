@@ -16,10 +16,18 @@ class Status < ActiveRecord::Base
   validates :twitter_status_id, :twitter_user_id, :body, :presence => true
   validates :twitter_status_id, uniqueness: true
 
-  belongs_to :user,  primary_key: :twitter_user_id, foreign_key: :twitter_user_id, class_name: "User"
+  belongs_to(
+    :user,
+    primary_key: :twitter_user_id,
+    foreign_key: :twitter_user_id,
+    class_name: "User"
+  )
 
   def self.fetch_by_user_id!(twitter_user_id)
-    raw_json = TwitterSession.get("statuses/user_timeline", user_id: twitter_user_id )
+    raw_json = TwitterSession.get(
+      "statuses/user_timeline",
+      user_id: twitter_user_id
+    )
     statuses = parse_json(raw_json)
     already_saved = Status.where(twitter_user_id: twitter_user_id)
       .pluck(:twitter_status_id)
@@ -47,10 +55,12 @@ class Status < ActiveRecord::Base
     end
   end
 
-
   def self.post(status_text)
-    status_thing = TwitterSession.post("statuses/update", { :status => status_text } )
-    parsed = parse_json("[#{status_thing.body}]")
+    response = TwitterSession.post(
+      "statuses/update",
+      { status: status_text }
+    )
+    parsed = parse_json("[#{response.body}]")
     parsed.first.save!
   end
 
@@ -61,6 +71,8 @@ class Status < ActiveRecord::Base
       Status.where( twitter_user_id: user_id )
     end
   end
+
+  private
 
   def self.internet_connection?
     begin

@@ -1,4 +1,3 @@
-require "status"
 # == Schema Information
 #
 # Table name: users
@@ -14,7 +13,12 @@ class User < ActiveRecord::Base
 
   validates :screen_name, :twitter_user_id, presence: true, uniqueness: true
 
-  has_many :statuses, primary_key: :twitter_user_id, foreign_key: :twitter_user_id, class_name: "Status"
+  has_many(
+    :statuses,
+    primary_key: :twitter_user_id,
+    foreign_key: :twitter_user_id,
+    class_name: "Status"
+  )
 
   def self.fetch_by_screen_name!(name)
     user = User.where(screen_name: name)

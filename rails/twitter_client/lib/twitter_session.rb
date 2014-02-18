@@ -8,13 +8,14 @@ class TwitterSession
   TOKEN_FILE = "access_token.yml"
 
   def self.get(path, query_values)
-
-    access_token.get(self.pathto_url(path, query_values)).body
+    access_token.get(self.path_to_url(path, query_values)).body
   end
 
   def self.post(path, req_params)
-    access_token.post(self.pathto_url(path, req_params))
+    access_token.post(self.path_to_url(path, req_params))
   end
+
+  private
 
   def self.api_key
     return @api_key if @api_key
@@ -29,6 +30,7 @@ class TwitterSession
   end
 
   def self.access_token
+    return @access_token if @access_token
     if File.exist?(TOKEN_FILE)
       File.open(TOKEN_FILE) { |f| @access_token = YAML.load(f)}
     else
@@ -38,18 +40,16 @@ class TwitterSession
     @access_token
   end
 
-  def self.pathto_url(path, query_values = nil)
-
+  def self.path_to_url(path, query_values = nil)
     url = Addressable::URI.new(
       scheme: "https",
       host: "api.twitter.com",
       path: "/1.1/#{path}.json",
       query_values: query_values
     )
-
     url.to_s
-
   end
+
   def self.request_access_token
     request = consumer.get_request_token
     authorize_url = request.authorize_url
@@ -57,7 +57,7 @@ class TwitterSession
     Launchy.open(authorize_url)
     puts "Please enter your PIN:"
     pin = gets.chomp
-    access_token = request.get_access_token(
+    request.get_access_token(
       oauth_verifier: pin
     )
   end

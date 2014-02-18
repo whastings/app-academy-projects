@@ -4,7 +4,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :screen_name, null: false
       t.string :twitter_user_id, null: false
 
-
       t.timestamps
     end
     add_index :users, :screen_name
