@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'oauth'
 gem 'launchy'
 gem 'addressable'
+gem 'annotate'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
