@@ -5,6 +5,8 @@ ContactsAPI::Application.routes.draw do
 
   resources :contacts, only: [:create, :destroy, :show, :update]
 
+  resources :contact_shares, only: [:create, :destroy]
+
   # Doing it the hard way!
   # get '/users', to: 'users#index'
   # get '/users/new', to: 'users#new', as: 'new_user'
