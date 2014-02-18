@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140218001213) do
+ActiveRecord::Schema.define(version: 20140218010637) do
 
   create_table "statuses", force: true do |t|
     t.string   "body",              null: false
@@ -23,5 +23,15 @@ ActiveRecord::Schema.define(version: 20140218001213) do
 
   add_index "statuses", ["twitter_status_id"], name: "index_statuses_on_twitter_status_id", unique: true
   add_index "statuses", ["twitter_user_id"], name: "index_statuses_on_twitter_user_id"
+
+  create_table "users", force: true do |t|
+    t.string   "screen_name",     null: false
+    t.string   "twitter_user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["screen_name"], name: "index_users_on_screen_name"
+  add_index "users", ["twitter_user_id"], name: "index_users_on_twitter_user_id"
 
 end
