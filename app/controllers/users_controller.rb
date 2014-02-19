@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   def index
     @users = User.all
-
     render :json => @users
   end
 
@@ -37,6 +36,20 @@ class UsersController < ApplicationController
     else
       head status: 404
     end
+  end
+
+  def favorites
+    @user = User.find(params[:id])
+    @favorites = @user.favorites
+
+    render :json => @favorites
+  end
+
+  def add_favorite
+    @user = User.find(params[:id])
+    @user.favorite!(Integer(params[:contact_id]))
+
+    redirect_to favorites_user_url(@user)
   end
 
   private

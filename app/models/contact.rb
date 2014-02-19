@@ -25,5 +25,6 @@ class Contact < ActiveRecord::Base
   def self.contacts_for_user_id(user_id)
     Contact.joins("LEFT OUTER JOIN contact_shares ON (contact_shares.contact_id = contacts.id)")
       .where("contact_shares.user_id = ? OR contacts.user_id = ?", user_id, user_id)
+      .group("contacts.id")
   end
 end

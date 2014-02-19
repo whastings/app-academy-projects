@@ -11,17 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140218195631) do
+ActiveRecord::Schema.define(version: 20140218232705) do
 
   create_table "contact_shares", force: true do |t|
-    t.integer  "contact_id", null: false
-    t.integer  "user_id",    null: false
+    t.integer  "contact_id",                 null: false
+    t.integer  "user_id",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "favorite",   default: false
   end
 
   add_index "contact_shares", ["contact_id", "user_id"], name: "index_contact_shares_on_contact_id_and_user_id", unique: true
   add_index "contact_shares", ["contact_id"], name: "index_contact_shares_on_contact_id"
+  add_index "contact_shares", ["favorite"], name: "index_contact_shares_on_favorite"
   add_index "contact_shares", ["user_id"], name: "index_contact_shares_on_user_id"
 
   create_table "contacts", force: true do |t|
@@ -30,8 +32,10 @@ ActiveRecord::Schema.define(version: 20140218195631) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "favorite",   default: false
   end
 
+  add_index "contacts", ["favorite"], name: "index_contacts_on_favorite"
   add_index "contacts", ["user_id"], name: "index_contacts_on_user_id"
 
   create_table "users", force: true do |t|
