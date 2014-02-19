@@ -1,6 +1,7 @@
 ContactsAPI::Application.routes.draw do
   resources :users, only: [:create, :destroy, :index, :show, :update] do
     resources :contacts, only: [:index]
+    resources :groups, only: [:index]
     member do
       get :favorites
       post :add_favorite
@@ -10,6 +11,8 @@ ContactsAPI::Application.routes.draw do
   resources :contacts, only: [:create, :destroy, :show, :update]
 
   resources :contact_shares, only: [:create, :destroy]
+
+  resources :groups, only: [:show, :create, :destroy]
 
   # Doing it the hard way!
   # get '/users', to: 'users#index'

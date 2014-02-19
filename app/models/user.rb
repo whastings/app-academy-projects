@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
   has_many :contacts
   has_many :contact_shares
+  has_many :groups
 
   has_many :shared_contacts,
     through: :contact_shares,
@@ -32,8 +33,6 @@ class User < ActiveRecord::Base
   def favorite!(contact_id)
     our_contact_ids = self.contacts.pluck(:id)
     shared_contact_ids = self.shared_contacts.pluck(:id)
-
-    puts contact_id
 
     if our_contact_ids.include?(contact_id)
       Contact.find(contact_id).update_attributes(:favorite => true)

@@ -8,6 +8,7 @@
 #  user_id    :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  favorite   :boolean          default(FALSE)
 #
 
 class Contact < ActiveRecord::Base
@@ -21,6 +22,8 @@ class Contact < ActiveRecord::Base
 
   has_many :contact_shares
   has_many :shared_users, through: :contact_shares, source: :user
+  has_many :group_memberships
+  has_many :groups, through: :group_memberships
 
   def self.contacts_for_user_id(user_id)
     Contact.joins("LEFT OUTER JOIN contact_shares ON (contact_shares.contact_id = contacts.id)")
