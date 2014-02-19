@@ -1,6 +1,9 @@
 ContactsAPI::Application.routes.draw do
   resources :users, only: [:create, :destroy, :index, :show, :update] do
-    resources :contacts, only: [:index]
+    resources :contacts, only: [:index, :show] do
+      resources :comments, only: [:index, :create]
+    end
+
     resources :groups, only: [:index]
     member do
       get :favorites
@@ -8,7 +11,7 @@ ContactsAPI::Application.routes.draw do
     end
   end
 
-  resources :contacts, only: [:create, :destroy, :show, :update]
+  resources :contacts, only: [:create, :destroy, :update]
 
   resources :contact_shares, only: [:create, :destroy]
 
