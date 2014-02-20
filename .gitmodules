@@ -1,3 +1,6 @@
 [submodule "sql/active_record_lite"]
 	path = sql/active_record_lite
 	url = git@github.com:whastings/active_record_lite.git
+[submodule "rails/ninety-nine-cats"]
+	path = rails/ninety-nine-cats
+	url = git@github.com:whastings/ninety-nine-cats.git
