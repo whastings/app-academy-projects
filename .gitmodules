@@ -4,3 +4,6 @@
 [submodule "rails/ninety-nine-cats"]
 	path = rails/ninety-nine-cats
 	url = git@github.com:whastings/ninety-nine-cats.git
+[submodule "rails/music_app"]
+	path = rails/music_app
+	url = git@github.com:whastings/music-app.git
