@@ -7,3 +7,6 @@
 [submodule "rails/music_app"]
 	path = rails/music_app
 	url = git@github.com:whastings/music-app.git
+[submodule "rails/users_and_friends"]
+	path = rails/users_and_friends
+	url = git@github.com:whastings/users_and_friends.git
