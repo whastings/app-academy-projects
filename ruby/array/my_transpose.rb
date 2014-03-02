@@ -1,3 +1,5 @@
+# Switch an array's rows with its columns.
+#
 # Pair programming partner: Rob Andrews
 
 def my_transpose(matrix)

@@ -1,3 +1,5 @@
+# A simple Towers of Hanoi game.
+#
 # Pair programming partner: Rob Andrews
 
 class HanoiTower

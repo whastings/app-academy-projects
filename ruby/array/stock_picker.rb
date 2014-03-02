@@ -1,3 +1,6 @@
+# Given an array of stock prices on different days, find the pair of days
+# (indicies) on which the most profit is made by buying then selling.
+#
 # Pair programming partner: Rob Andrews
 
 def stock_picker(array)
