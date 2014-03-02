@@ -3,3 +3,4 @@
 Remove duplicate `move` logic from SteppingPiece and SlidingPiece
 Handle quiting with q
 Display control instructions to user
+Make all helper methods `private`
