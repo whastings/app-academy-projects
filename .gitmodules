@@ -13,3 +13,6 @@
 [submodule "rails/rails_lite"]
 	path = rails/rails_lite
 	url = git@github.com:whastings/rails_lite.git
+[submodule "rails/reddit_clone"]
+	path = rails/reddit_clone
+	url = git@github.com:whastings/reddit_clone.git
