@@ -1,3 +1,5 @@
+/* Pair programming partner: Mark Shlick */
+
 function Student(name) {
   this.name = name;
   this.courseList = [];
