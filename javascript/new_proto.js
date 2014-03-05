@@ -21,6 +21,13 @@ var newProto = (function() {
   return function(proto, superProto) {
     if (superProto) {
       proto = Object.create(superProto, getProperties(proto));
+      proto.callSuper = function(methodName) {
+        if (typeof superProto[methodName] !== 'function') {
+          throw new Error('Method ' + methodName + ' is not defined.');
+        }
+        var args = Array.prototype.slice.call(arguments, 1);
+        return superProto[methodName].apply(this, args);
+      };
     }
     proto.create = function() {
       var newObject = Object.create(proto);
@@ -57,11 +64,11 @@ var UltraBook = newProto({
     this.extras = extras;
   },
   stats: function() {
-    return Computer.stats.call(this) +
+    return this.callSuper('stats') +
       'Resolution: ' + this.resolution + '\nExtras: ' + this.extras;
   }
 }, Computer);
 
-console.log(ultraComputer.__proto__ === UltraBook);
 var ultraComputer = UltraBook.create(4096, 3.5, '1920x1080', 'SDD, webcam');
+console.log(ultraComputer.__proto__ === UltraBook);
 console.log(ultraComputer.stats());
