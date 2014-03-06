@@ -21,7 +21,7 @@
   }
 
   Asteroid.randomVec = function(){
-    var vel = Math.random()*20 + 1;
+    var vel = Math.random() * 5 + 1;
     vel *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
     return vel;
   }
