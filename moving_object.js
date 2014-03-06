@@ -11,8 +11,8 @@
   MovingObject.prototype.move = function() {
     var posX = this.pos[0],
         posY = this.pos[1],
-        velX = this.pos[0],
-        velY = this.pos[1];
+        velX = this.vel[0],
+        velY = this.vel[1];
     this.pos = [posX + velX, posY + velY];
   };
 
