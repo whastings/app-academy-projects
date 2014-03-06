@@ -41,7 +41,7 @@ var newProto = (function() {
 
 })();
 
-/* Tests */
+/* Tests / Usage Example */
 
 var Computer = newProto({
   initialize: function(memory, ghz) {
@@ -59,7 +59,7 @@ console.log(basicComputer.stats());
 
 var UltraBook = newProto({
   initialize: function(memory, ghz, resolution, extras) {
-    Computer.initialize.call(this, memory, ghz);
+    this.callSuper('initialize', memory, ghz);
     this.resolution = resolution;
     this.extras = extras;
   },
