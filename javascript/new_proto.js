@@ -3,6 +3,9 @@
  *
  * Inspiration: Kyle Simpson's 'De"construct"ion':
  *   http://davidwalsh.name/javascript-objects-deconstruction
+ *
+ * Credits:
+ *   - Mark Shlick for the callSuper idea.
  */
 var newProto = (function() {
   "use strict";
