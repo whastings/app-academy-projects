@@ -54,7 +54,7 @@ var Computer = newProto({
 });
 
 var basicComputer = Computer.create(1024, 2.5);
-console.log(basicComputer.__proto__ === Computer);
+console.log(Object.getPrototypeOf(basicComputer) === Computer);
 console.log(basicComputer.stats());
 
 var UltraBook = newProto({
@@ -70,5 +70,5 @@ var UltraBook = newProto({
 }, Computer);
 
 var ultraComputer = UltraBook.create(4096, 3.5, '1920x1080', 'SDD, webcam');
-console.log(ultraComputer.__proto__ === UltraBook);
+console.log(Object.getPrototypeOf(ultraComputer) === UltraBook);
 console.log(ultraComputer.stats());
