@@ -1,4 +1,5 @@
-(function(root){
+(function(root) {
+  "use strict";
 
   var Asteroids = root.Asteroids = root.Asteroids || {};
   var Bullet = Asteroids.Bullet;
@@ -8,7 +9,7 @@
       COLOR = "blue";
 
   var Ship = Asteroids.Ship = function(pos) {
-    Asteroids.MovingObject.call(this, pos, [0,0], RADIUS, COLOR);
+    Asteroids.MovingObject.call(this, pos, [0, 0], RADIUS, COLOR);
     //will now be the degree that we are pointing
     this.currentDirection = 0;
     this.speed = 0;
@@ -18,7 +19,7 @@
 
   Ship.prototype.fireBullet = function(){
     return new Bullet(this.pos, this.vel);
-  }
+  };
 
   Ship.prototype.power = function(impulse) {
     this.speed += impulse;
@@ -54,4 +55,4 @@
 
   };
 
-})(this)
+})(this);

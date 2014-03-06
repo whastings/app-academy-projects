@@ -1,4 +1,6 @@
 (function(root) {
+  "use strict";
+
   var Asteroids = root.Asteroids = root.Asteroids || {};
 
   var MovingObject = Asteroids.MovingObject = function(pos, vel, radius, color) {
@@ -46,4 +48,4 @@
   };
 
 
-})(this)
+})(this);

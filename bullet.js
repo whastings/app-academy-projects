@@ -1,4 +1,5 @@
-(function(root){
+(function(root) {
+  "use strict";
 
   var Asteroids = root.Asteroids = root.Asteroids || {};
   var MovingObject = Asteroids.MovingObject;
@@ -13,9 +14,8 @@
     ourVel.push(vel[1] === 0 ? SPEED_MULTIPLIER : vel[1] * SPEED_MULTIPLIER);
 
     MovingObject.call(this, pos, ourVel, RADIUS, COLOR);
-    // this.speed = Math.sqrt(Math.pow(vel[0], 2) + Math.pow(vel[1], 2));
-  }
+  };
   Bullet.inherits(MovingObject);
 
 
-})(this)
+})(this);
