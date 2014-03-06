@@ -15,6 +15,7 @@
   };
   Ship.inherits(Asteroids.MovingObject);
 
+
   Ship.prototype.fireBullet = function(){
     return new Bullet(this.pos, this.vel);
   }

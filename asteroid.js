@@ -2,6 +2,7 @@
 
   var COLOR = "gray";
   var RADIUS = 20;
+  var SPEED_FACTOR = 2;
 
   var Asteroids = root.Asteroids = root.Asteroids || {};
 
@@ -21,7 +22,7 @@
   }
 
   Asteroid.randomVec = function(){
-    var vel = Math.random() * 5 + 1;
+    var vel = Math.random() * SPEED_FACTOR + 1;
     vel *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
     return vel;
   }

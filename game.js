@@ -6,6 +6,8 @@
 
   var DIM_X = 1000,
       DIM_Y = 500,
+      SCORE_X = 50,
+      SCORE_Y = DIM_Y - 30,
       FPS = 30,
       NUM_ASTEROIDS = 3;
 
@@ -14,6 +16,7 @@
     this.asteroids = Game.addAsteroids(NUM_ASTEROIDS);
     this.ship = new Ship([DIM_X/2, DIM_Y/2]);
     this.bullets = [];
+    this.hitAsteroids = 0;
   };
 
   Game.addAsteroids = function(numAsteroids) {
@@ -79,7 +82,6 @@
       }
     });
     if (collision) {
-      alert('Game over!');
       this.stop();
     }
   }
@@ -102,6 +104,7 @@
     })
     removeTheseAsteroids.forEach(function(asteroid){
       that.asteroids.splice(asteroid, 1);
+      that.hitAsteroids += 1;
     })
   }
 
@@ -134,13 +137,29 @@
     return false;
   }
 
+  Game.prototype.resetAsteroids = function() {
+    var asteroidsNeeded = NUM_ASTEROIDS - this.asteroids.length;
+    if (asteroidsNeeded > 0) {
+      this.asteroids = this.asteroids.concat(Game.addAsteroids(asteroidsNeeded));
+    }
+  };
+
   Game.prototype.step = function() {
     this.move();
     this.draw();
     this.checkCollision();
     this.checkShots();
     this.cleanUp();
+    this.resetAsteroids();
+    this.showScore();
   };
+
+  Game.prototype.showScore = function() {
+    this.context.fillStyle = "black";
+    this.context.font = "normal 20pt Courier ";
+    this.context.fillText("Current score: " + this.hitAsteroids, SCORE_X, SCORE_Y);
+
+  }
 
   Game.prototype.start = function() {
     this.bindKeyHandlers();
@@ -148,6 +167,7 @@
   };
 
   Game.prototype.stop = function() {
+    alert("Game Over. You hit " + this.hitAsteroids + " asteroids.")
     clearInterval(this.interval);
   };
 
