@@ -1,0 +1,54 @@
+.container {
+  width: 600px;
+  height: 300px;
+  border: 1px #000 solid;
+}
+
+.pile {
+  width: 150px;
+  height: 300px;
+  float: left;
+  margin-left: 35px;
+  border: 1px #000 solid;
+  position: relative;
+}
+
+.disk {
+  height: 30px;
+  background-color: #0000FF;
+  border: 1px #000 solid;
+  margin: 20px auto 0px auto;
+  position: absolute;
+}
+
+.disk-0 {
+  width: 75px;
+  left: 37px;
+}
+
+.disk-1 {
+  left: 25px;
+  width: 100px;
+}
+
+
+.disk-2 {
+  left: 12px;
+  width: 125px;
+}
+
+.selected {
+  background-color: #00FFFF;
+}
+
+.order-0 {
+  bottom: 5px;
+}
+
+.order-1 {
+  bottom: 50px;
+}
+
+.order-2 {
+  bottom: 95px;
+}
