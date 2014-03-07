@@ -1,0 +1,39 @@
+.container {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.cell {
+  width: 98px;
+  height: 98px;
+  float: left;
+  border: 1px #000 solid;
+  font-size: 500%;
+}
+
+.turn-text {
+  width: 150px;
+  margin: 10px auto;
+  font-weight: bold;
+}
+
+body {
+  font-family: Helvetica;
+}
+
+.letter {
+  width: 40%;
+  line-height: 85px;
+  margin: 0 auto;
+}
+
+.x {
+  color: #FF0000
+}
+
+
+.o {
+  color: #0000FF
+}
+
