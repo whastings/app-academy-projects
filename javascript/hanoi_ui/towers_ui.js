@@ -1,4 +1,5 @@
 (function(root) {
+  'use strict';
 
   var Hanoi = root.Hanoi = (root.Hanoi || {});
   var TowersUI = Hanoi.TowersUI = function(game) {
@@ -9,7 +10,7 @@
 
   };
 
-  TowersUI.prototype.addClickHandlers = function(){
+  TowersUI.prototype.addClickHandlers = function() {
     var $piles = this.$piles = $(".pile");
     this.$container.on("click", ".pile", this.handleMove.bind(this));
   };
@@ -29,7 +30,7 @@
           alert("You Win!");
         }
       } else {
-        alert('Invalid Move')
+        alert('Invalid Move');
       }
       $startPile.removeClass('selected');
       this.selectedPile = null;
@@ -43,6 +44,6 @@
     var pile = this.game.towers[$endPile.data('id')];
     disk.addClass('order-' + (pile.length - 1));
     disk.prependTo($endPile);
-  }
+  };
 
 })(this);

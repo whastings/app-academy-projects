@@ -1,13 +1,13 @@
+/* Note: This file provided by App Academy. */
+
 (function (root) {
+  'use strict';
+
   var Hanoi = root.Hanoi = (root.Hanoi || {});
 
   var Game = Hanoi.Game = function () {
     this.towers = [[3, 2, 1], [], []];
   };
-
-  Game.prototype.turn = function () {
-
-  }
 
   Game.prototype.isWon = function () {
     // move all the discs to the last tower
@@ -20,7 +20,7 @@
 
     if (startTower.length === 0) {
       return false;
-    } else if (endTower.length == 0) {
+    } else if (endTower.length === 0) {
       return true;
     } else {
       var topStartDisc = startTower[startTower.length - 1];

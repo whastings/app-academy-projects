@@ -1,6 +1,8 @@
-(function(root){
-  var Snakes = root.Snakes = (root.Snakes || {})
-  var Board = Snakes.Board = function(height, width){
+(function(root) {
+  'use strict';
+
+  var Snakes = root.Snakes = (root.Snakes || {});
+  var Board = Snakes.Board = function(height, width) {
     this.height = height;
     this.width  = width;
     this.snake = new Snakes.Snake();
@@ -8,7 +10,7 @@
     this.applesEaten = 0;
   };
 
-  Board.prototype.render = function(){
+  Board.prototype.render = function() {
     var array = this.boardArray(function() {
       return '.';
     });
@@ -32,9 +34,9 @@
       array[apple.row][apple.col].addClass('apple');
     });
     var $container = $("<div class='container'></div>");
-    for (var i = 0; i < this.height ; i++ ){
+    for (var i = 0; i < this.height; i++ ) {
       var $row = $("<div class='row'></div>");
-      for (var j=0 ; j < this.width ; j++ ){
+      for (var j = 0 ; j < this.width; j++ ) {
         $row.append(array[i][j]);
       }
       $container.append($row);
@@ -44,9 +46,9 @@
 
   Board.prototype.boardArray = function(callback) {
     var array = [];
-    for (var i = 0; i < this.height ; i++){
+    for (var i = 0; i < this.height; i++) {
       array.push([]);
-      for (var j = 0; j < this.width ; j++){
+      for (var j = 0; j < this.width; j++) {
         array[i][j] = callback();
       }
     }
@@ -80,22 +82,22 @@
     return true;
   };
 
-  Board.prototype.move = function(){
+  Board.prototype.move = function() {
     var snakeHead = this.snake.move();
-    this.eatApples(snakeHead)
+    this.eatApples(snakeHead);
     return snakeHead;
-  }
+  };
 
-  Board.prototype.eatApples = function(snakeHead){
-    var that = this
-    this.apples.some(function(apple, i){
-      if (apple.eq(snakeHead)){
+  Board.prototype.eatApples = function(snakeHead) {
+    var that = this;
+    this.apples.some(function(apple, i) {
+      if (apple.eq(snakeHead)) {
         that.apples.splice(i , 1);
         that.snake.grow();
         that.applesEaten++;
         return true;
       }
     });
-  }
+  };
 
-})(this)
+})(this);

@@ -9,12 +9,11 @@
     this.updateTurnText();
   };
 
-
   UI.prototype.newGrid = function() {
     var $outerDiv = $('<div></div>');
     $outerDiv.addClass('container');
     for (var i = 0; i < 3; i++) {
-      for (var j = 0; j< 3 ; j++) {
+      for (var j = 0; j< 3; j++) {
         var $innerDiv = $('<div></div>');
         $innerDiv.addClass('cell');
         $innerDiv.attr("data-row", i);
@@ -40,7 +39,7 @@
     var $target = $(event.currentTarget);
     var row = $target.data("row");
     var col = $target.data("col");
-    var move = this.game.move([row,col])
+    var move = this.game.move([row, col]);
     if (move) {
       $target.html("<div class='letter " + move + "' >" + move + "</div>");
       this.updateTurnText();
@@ -51,7 +50,7 @@
       }
     } else {
       alert("Can't move there!");
-    };
+    }
   };
 
   UI.prototype.updateTurnText = function() {

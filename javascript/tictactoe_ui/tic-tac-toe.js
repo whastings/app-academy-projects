@@ -1,6 +1,7 @@
-// NB: This doesn't include any AI.
+/* Note: This file provided by App Academy. */
 
 (function (root) {
+  'use strict';
 
   var TTT = root.TTT = (root.TTT || {});
 

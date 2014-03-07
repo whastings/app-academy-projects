@@ -1,4 +1,6 @@
-;(function(root){
+;(function(root) {
+  'use strict';
+
   var Snakes = root.Snakes = (root.Snakes || {});
 
   var Coord = Snakes.Coord = function(row, col) {
@@ -25,8 +27,8 @@
     return newCoord;
   };
 
-  Coord.prototype.eq = function(other){
-    return (this.row === other.row && this.col === other.col)
-  }
+  Coord.prototype.eq = function(other) {
+    return (this.row === other.row && this.col === other.col);
+  };
 
 })(this);

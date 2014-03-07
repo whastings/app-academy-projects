@@ -1,17 +1,21 @@
-;(function(root){
+;(function(root) {
+  'use strict';
+
   var Snakes = root.Snakes = (root.Snakes || {});
 
-  var Snake = Snakes.Snake = function(){
+  var Snake = Snakes.Snake = function() {
 
-    this.segments = [new Snakes.Coord(2, 0),
-                     new Snakes.Coord(1, 0),
-                     new Snakes.Coord(0, 0)];
+    this.segments = [
+      new Snakes.Coord(2, 0),
+      new Snakes.Coord(1, 0),
+      new Snakes.Coord(0, 0)
+    ];
     this.direction = "S";
     this.size = 3;
     this.baseSize = this.size;
   };
 
-  Snake.prototype.move = function(){
+  Snake.prototype.move = function() {
     var front = this.segments[0];
     var newSegment = front.plus(this.direction);
     if (this.size === this.segments.length) {
@@ -24,8 +28,8 @@
     return newSegment;
   };
 
-  Snake.prototype.turn = function(newDir){
-    if (!(newDir === Snakes.oppositeDirections[this.direction])){
+  Snake.prototype.turn = function(newDir) {
+    if (newDir !== Snakes.oppositeDirections[this.direction]) {
       this.direction = newDir;
     }
   };
@@ -35,17 +39,17 @@
     E: "W",
     S: "N",
     W: "E"
-  }
+  };
 
-  Snake.prototype.grow = function(){
+  Snake.prototype.grow = function() {
     this.size += 2;
   };
 
-  Snake.prototype.shrink = function(){
-    if (this.size > this.baseSize){
-      this.size -= 1
+  Snake.prototype.shrink = function() {
+    if (this.size > this.baseSize) {
+      this.size -= 1;
     }
-  }
+  };
 
   Snake.prototype.increaseBaseSize = function() {
     this.baseSize++;

@@ -1,4 +1,5 @@
 (function(root) {
+  'use strict';
 
   var Snakes = root.Snakes = (root.Snakes || {});
 
@@ -31,10 +32,10 @@
     }
   };
 
-  View.prototype.step = function(){
+  View.prototype.step = function() {
     var newSegment = this.board.move();
     if (this.board.outOfBoundsCoord(newSegment) || this.snake.collided()) {
-      alert('Game over! \n Your Score: '+ this.board.applesEaten * 10 );
+      alert('Game over! \n Your Score: ' + this.board.applesEaten * 10 );
       this.stop();
     }
     else {
@@ -50,9 +51,7 @@
       this.$el.replaceWith($newEl);
       this.$el = $newEl;
     }
-  }
-
-
+  };
 
   View.prototype.stop = function() {
     clearInterval(this.interval);
