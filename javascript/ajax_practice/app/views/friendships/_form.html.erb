@@ -1,0 +1,7 @@
+<!-- Requires @user -->
+
+<form action='<%= user_friendships_url(user) %>' method='post'>
+  <%= authenticity_token %>
+
+  <input type='submit' value='Add Friend' class='btn btn-success'>
+</form>

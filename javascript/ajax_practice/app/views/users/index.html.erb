@@ -1,0 +1,70 @@
+<h1>All Users</h1>
+
+<ul class="list-group" id='user-list'>
+  <% @users.each do |user| %>
+    <li class="list-group-item clearfix">
+      <%= link_to user.username, user_url(user), :class => "username" %>
+
+      <div class="friend-buttons <%= friend_button_class(user.id, current_user.id) %>" >
+
+        <button class='btn btn-success btn-sm friend'
+                data-friendee-id='<%= user.id %>'>
+          Add Friend
+        </button>
+
+        <button class='btn btn-danger btn-sm unfriend'
+                data-friendee-id='<%= user.id %>'>
+          Remove Friend
+        </button>
+
+      </div>
+    </li>
+  <% end %>
+
+</ul>
+
+<script>
+  (function() {
+    'use strict';
+
+    function sendFriendshipRequest(userId, type, callback) {
+      $.ajax({
+        url: '/users/' + userId + '/friendships.json',
+        dataType: 'text',
+        type: type,
+        success: callback
+      });
+    }
+
+    function toggleFriendsButton($button, buttonText) {
+      var $parent = $button.parent();
+      $parent.toggleClass('can-friend can-unfriend');
+      $button.attr('disabled', false);
+      $button.text(buttonText);
+    }
+
+    var $userList = $('#user-list');
+
+    $userList.on('click', '.friend', function(event) {
+      var $button = $(this);
+      var userId = $button.data('friendee-id');
+
+      sendFriendshipRequest(userId, "POST",
+        toggleFriendsButton.bind(null, $button, 'Add Friend'));
+
+      $button.text('Friending...').attr('disabled', true);
+    });
+
+    $userList.on('click', '.unfriend', function(event) {
+      var $button = $(this);
+      var userId = $button.data('friendee-id');
+
+      sendFriendshipRequest(userId, "DELETE",
+        toggleFriendsButton.bind(null, $button, 'Remove Friend'));
+
+      $button.text('Unfriending...').attr('disabled', true);
+    });
+
+  })();
+
+</script>

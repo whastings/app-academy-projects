@@ -1,0 +1,24 @@
+/* Manually import Bootstrap components used so we only get necessary CSS. */
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+@import "bootstrap/normalize";
+@import "bootstrap/print";
+@import "bootstrap/scaffolding";
+@import "bootstrap/type";
+@import "bootstrap/grid";
+@import "bootstrap/forms";
+@import "bootstrap/tables";
+@import "bootstrap/buttons";
+@import "bootstrap/navs";
+@import "bootstrap/navbar";
+@import "bootstrap/pagination";
+@import "bootstrap/alerts";
+@import "bootstrap/utilities";
+@import "bootstrap/responsive-utilities";
+@import "bootstrap/list-group";
+@import "bootstrap/wells";
+@import "bootstrap/badges";
+
+.user-controls {
+  margin: 7px 10px 0 0;
+}

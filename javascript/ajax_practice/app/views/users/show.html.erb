@@ -1,0 +1,87 @@
+<h1><%= @user.username %></h1>
+
+<div class='row'>
+  <div class='col-md-6'>
+    <h2>Secrets</h2>
+    <ul id='secret-list' class="list-group">
+      <% @user.received_secrets.each do |secret| %>
+        <li class="list-group-item"><%= secret.title %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class='col-md-6'>
+
+    <h2>Share a Secret</h2>
+
+    <%= render 'secrets/form', secret: @secret, recipient: @user %>
+
+  </div>
+</div>
+
+
+
+<script>
+
+  (function() {
+    'use strict';
+
+    function addSecret(secret) {
+      var $li = $('<li class="list-group-item"></li>');
+      $li.text(secret.title);
+      $secretList.append($li);
+      $secretForm[0].reset();
+    }
+
+    var $secretForm = $('#secret-form');
+    var $secretList = $('#secret-list');
+
+    $secretForm.on('submit', function(event) {
+      event.preventDefault();
+      var data = $secretForm.serialize();
+
+      $.ajax({
+        url: $secretForm.attr('action'),
+        dataType: "json",
+        type: "POST",
+        data: data,
+
+        success: addSecret
+      });
+    });
+
+  })();
+
+</script>
+
+<script type='application/json' id='tags-data'>
+  <%= @tags.to_json.html_safe %>
+</script>
+
+<script type="text/template" id='select-template'>
+  <select class='form-control tag-select' name='secrets[tag_ids][]'>
+    <option></option>
+    <%% tags.forEach(function(tag) {  %>
+      <option value="<%%= tag.id %>"><%%= tag.name %></option>
+    <%% }); %>
+  </select>
+</script>
+
+<script>
+  (function() {
+    var tags = JSON.parse($('#tags-data').html());
+    var selectTemplate = _.template($('#select-template').html());
+    var selectHTML = selectTemplate({tags: tags});
+    var $selectContainer = $('#secret-tag-selects');
+    $selectContainer.append(selectHTML);
+
+    $('#add-select').on('click', function(event) {
+      event.preventDefault();
+      $selectContainer.append(selectHTML);
+    });
+
+  })();
+</script>
+
+
+
