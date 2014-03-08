@@ -5,6 +5,7 @@
   var Board = Snakes.Board = function(height, width) {
     this.height = height;
     this.width  = width;
+    this.$cells = $();
     this.snake = new Snakes.Snake();
     this.apples = [];
     this.applesEaten = 0;
@@ -24,24 +25,30 @@
   };
 
   Board.prototype.renderHTML = function() {
-    var array = this.boardArray(function() {
-      return $('<div class="cell"></div>');
-    });
+    var self = this;
+    if (!this.$cells.length) {
+      var array = this.boardArray(function() {
+        return $('<div class="cell"></div>');
+      });
+      this.$cells = $(array.reduce(function(cells, row) {
+        return cells.concat(row);
+      })).map(function() {
+        return this.toArray();
+      });
+    }
+    this.$cells.removeClass('snake apple');
     this.snake.segments.forEach(function(segment) {
-      array[segment.row][segment.col].addClass('snake');
+      self.getCell(segment).addClass('snake');
     });
     this.apples.forEach(function(apple) {
-      array[apple.row][apple.col].addClass('apple');
+      self.getCell(apple).addClass('apple');
     });
-    var $container = $("<div class='container'></div>");
-    for (var i = 0; i < this.height; i++ ) {
-      var $row = $("<div class='row'></div>");
-      for (var j = 0 ; j < this.width; j++ ) {
-        $row.append(array[i][j]);
-      }
-      $container.append($row);
-    }
-    return $container;
+
+    return this.$cells;
+  };
+
+  Board.prototype.getCell = function(coord) {
+    return this.$cells.eq(((coord.row * this.width)) + coord.col);
   };
 
   Board.prototype.boardArray = function(callback) {

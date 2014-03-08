@@ -10,6 +10,7 @@
   View.prototype.start = function() {
     this.board = new Snakes.Board(25, 25);
     this.snake = this.board.snake;
+    this.$el.append(this.board.renderHTML());
     $(document).on('keydown', this.handleKeyEvent.bind(this));
     this.interval = setInterval(this.step.bind(this), 150);
     this.turnNum = 0;
@@ -47,9 +48,7 @@
         this.snake.increaseBaseSize();
         this.board.addApple();
       }
-      var $newEl = this.board.renderHTML();
-      this.$el.replaceWith($newEl);
-      this.$el = $newEl;
+      this.board.renderHTML();
     }
   };
 
