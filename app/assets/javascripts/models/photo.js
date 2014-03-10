@@ -17,7 +17,7 @@
           var objects = _.map(data, function(object) {
             return new Photo(object);
           });
-          Photo.all.concat(objects);
+          Photo.all = Photo.all.concat(objects);
           callback(objects);
         }
       });

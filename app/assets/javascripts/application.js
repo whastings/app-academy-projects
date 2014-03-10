@@ -18,6 +18,21 @@
 //= require underscore
 //
 //= require_tree ./models
+//= require_tree ./views
 //= require_tree ../templates
 //
 //= require_tree .
+
+(function(root) {
+
+  var PT = root.PT = (root.PT || {});
+
+  PT.initialize = function(user_id) {
+    PT.Photo.fetchByUserId(user_id, function() {
+      var view = new PT.PhotosListView();
+      view.render();
+      $('div#content').append(view.$el);
+    });
+  };
+
+})(this);

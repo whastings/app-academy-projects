@@ -1,2 +1,9 @@
 <div id="content">
 </div>
+
+<script>
+  $(function() {
+    var CURRENT_USER_ID = <%= current_user.id %>;
+    PT.initialize(CURRENT_USER_ID);
+  });
+</script>
