@@ -30,8 +30,10 @@
   PT.initialize = function(user_id) {
     PT.Photo.fetchByUserId(user_id, function() {
       var view = new PT.PhotosListView();
+      var formView = new PT.PhotoFormView();
       view.render();
-      $('div#content').append(view.$el);
+      formView.render();
+      $('div#content').append(view.$el).append(formView.$el);
     });
   };
 

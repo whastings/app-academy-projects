@@ -23,7 +23,22 @@
       });
     },
 
-    all: []
+    on: function(eventName, callback) {
+      if (!this._events[eventName]) {
+        this._events[eventName] = [];
+      }
+      this._events[eventName].push(callback);
+    },
+
+    trigger: function(eventName) {
+      this._events[eventName].forEach(function(callback) {
+        callback();
+      });
+    },
+
+    all: [],
+
+    _events: {}
   });
 
   _.extend(Photo.prototype, {
@@ -41,6 +56,7 @@
         return;
       }
       Photo.all.push(this);
+      Photo.trigger('add');
       this.sendData(callback, '/api/photos', 'POST');
     },
 
@@ -53,13 +69,14 @@
     },
 
     sendData: function(callback, url, type) {
+      var self = this;
       $.ajax({
         url: url,
         type: type,
-        data: this.attributes,
+        data: {photo: this.attributes},
         dataType: "json",
         success: function(data) {
-          _.extend(this.attributes, data);
+          _.extend(self.attributes, data);
           callback();
         }
       });
