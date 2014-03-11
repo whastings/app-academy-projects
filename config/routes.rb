@@ -11,7 +11,7 @@ PhotoTagger::Application.routes.draw do
       resources :photo_taggings, :only => [:index]
     end
 
-    resources :photo_taggings, :only => [:create]
+    resources :photo_taggings, :only => [:create, :update]
   end
 
   root :to => "static_pages#root"

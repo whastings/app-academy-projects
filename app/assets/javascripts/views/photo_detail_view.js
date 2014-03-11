@@ -23,11 +23,15 @@
     },
 
     popTagSelectView: function(event) {
+      if (this.selectView) {
+        this.selectView.$el.remove();
+      }
+
       var $photo = this.$el.find('.photo');
       $photo.css('width', this.$el.find('img').width());
 
-      var selectView = new PT.TagSelectView(this.photo, event);
-      $photo.append(selectView.render().$el);
+      this.selectView = new PT.TagSelectView(this.photo, event);
+      $photo.append(this.selectView.render().$el);
     }
   });
 

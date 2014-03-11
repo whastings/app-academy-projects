@@ -5,5 +5,6 @@
   $(function() {
     var CURRENT_USER_ID = <%= current_user.id %>;
     PT.initialize(CURRENT_USER_ID);
+    PT.users = JSON.parse('<%= User.all.to_json.html_safe %>');
   });
 </script>

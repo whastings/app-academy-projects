@@ -21,6 +21,18 @@ class Api::PhotoTaggingsController < ApplicationController
     render :json => @photo_taggings
   end
 
+  def update
+    @photo_tagging = PhotoTagging.find(params[:id])
+    if @photo_tagging.update_attributes(photo_tagging_params)
+      render :json => @photo_tagging
+    else
+      render(
+        :json => @photo_tagging.errors.full_messages,
+        :status => :unprocessable_entity
+      )
+    end
+  end
+
   private
   def require_owner_user!
     # TODO: really should give permission error!
