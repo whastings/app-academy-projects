@@ -1,0 +1,5 @@
+<ul>
+  <% photos.forEach(function(photo){ %>
+    <li><a href="#" data-id="<%= photo.get('id') %>"><%= photo.get('title') %></a></li>
+  <% }); %>
+</ul>
