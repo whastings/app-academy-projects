@@ -15,6 +15,18 @@
  *= require_tree .
  */
 
+.photo {
+  position: relative;
+  width: 600px;
+}
+
+.tag {
+  position: absolute;
+  border: 5px red solid;
+  width: 100px;
+  height: 100px;
+}
+
 div.photo-tag {
   width: 100px;
   height: 100px;

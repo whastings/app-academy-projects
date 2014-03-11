@@ -27,14 +27,25 @@
 
   var PT = root.PT = (root.PT || {});
 
-  PT.initialize = function(user_id) {
-    PT.Photo.fetchByUserId(user_id, function() {
+  PT.initialize = function(userId) {
+    this.userId = userId;
+    this.showPhotosIndex(userId);
+  };
+
+  PT.showPhotosIndex = function() {
+    PT.Photo.fetchByUserId(this.userId, function() {
       var view = new PT.PhotosListView();
       var formView = new PT.PhotoFormView();
       view.render();
       formView.render();
-      $('div#content').append(view.$el).append(formView.$el);
+      $('div#content').html(view.$el).append(formView.$el);
     });
+  };
+
+  PT.showPhotoDetail = function(photo) {
+    var view = new PT.PhotoDetailView(photo);
+    view.render();
+    $('div#content').html(view.$el);
   };
 
 })(this);

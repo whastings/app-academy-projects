@@ -17,7 +17,7 @@
           var objects = _.map(data, function(object) {
             return new Photo(object);
           });
-          Photo.all = Photo.all.concat(objects);
+          Photo.all = objects;
           callback(objects);
         }
       });
@@ -33,6 +33,12 @@
     trigger: function(eventName) {
       this._events[eventName].forEach(function(callback) {
         callback();
+      });
+    },
+
+    find: function(id) {
+      return _.find(this.all, function(photo) {
+        return photo.get('id') === id;
       });
     },
 
