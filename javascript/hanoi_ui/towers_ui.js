@@ -7,7 +7,6 @@
     this.selectedPile = null;
     this.$container = $(".container");
     this.addClickHandlers();
-
   };
 
   TowersUI.prototype.addClickHandlers = function() {
@@ -38,12 +37,56 @@
   };
 
   TowersUI.prototype.moveDisk = function($startPile, $endPile) {
-    var disk = $startPile.children().first().remove();
+    var oldDisk = $startPile.children().first();
+    var disk = oldDisk.clone();
     var diskNum = disk.data('id');
     disk.removeClass().addClass('disk disk-' + diskNum);
     var pile = this.game.towers[$endPile.data('id')];
     disk.addClass('order-' + (pile.length - 1));
+    disk.addClass('hidden');
     disk.prependTo($endPile);
+    this.animateMove(oldDisk, disk);
+  };
+
+  TowersUI.prototype.animateMove = function(oldDisk, newDisk) {
+    var newDiskBottom = parseInt(newDisk.css('bottom'));
+    var $disks = $('.disk');
+    var diskHeights = $.map($disks, function(disk) {
+     return parseInt($(disk).css('bottom'));
+    });
+    var up = Math.max.apply(null, diskHeights) + 45;
+    oldDisk.css({bottom: up + 'px'});
+
+    performMove(oldDisk, 'bottom', up)
+    .then(function() {
+      var oldLeft = oldDisk.offset().left;
+      var newLeft = newDisk.offset().left;
+      var posLeft = parseInt(oldDisk.css('left'));
+      var amount = posLeft + (newLeft - oldLeft);
+      return performMove(oldDisk, 'left', amount);
+    })
+    .then(function() {
+      return performMove(oldDisk, 'bottom', newDiskBottom);
+    })
+    .then(function() {
+      newDisk.removeClass('hidden');
+      oldDisk.remove();
+    });
+  };
+
+  var performMove = function(element, property, amount) {
+    var deferred = $.Deferred();
+
+    var move = {};
+    move[property] = amount + 'px';
+    element.css(move);
+
+    element.one(
+      'webkitTransitionEnd otransitionend msTransitionEnd transitionend',
+      deferred.resolve
+    );
+
+    return deferred.promise();
   };
 
 })(this);

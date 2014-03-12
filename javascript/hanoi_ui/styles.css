@@ -2,6 +2,7 @@
   width: 600px;
   height: 300px;
   border: 1px #000 solid;
+  margin: 0 auto;
 }
 
 .pile {
@@ -10,15 +11,22 @@
   float: left;
   margin-left: 35px;
   border: 1px #000 solid;
+  border-top: 0;
+  border-bottom: 0;
   position: relative;
+}
+
+.hidden {
+  opacity: 0;
 }
 
 .disk {
   height: 30px;
   background-color: #0000FF;
   border: 1px #000 solid;
-  margin: 20px auto 0px auto;
+  margin: 20px auto 0 auto;
   position: absolute;
+  transition: bottom .5s linear, left .5s linear;
 }
 
 .disk-0 {
