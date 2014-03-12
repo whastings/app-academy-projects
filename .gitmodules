@@ -16,3 +16,6 @@
 [submodule "rails/reddit_clone"]
 	path = rails/reddit_clone
 	url = git@github.com:whastings/reddit_clone.git
+[submodule "javascript/backbone_journal"]
+	path = javascript/backbone_journal
+	url = git@github.com:whastings/backbone_journal.git
