@@ -1,8 +1,11 @@
-.container {
+.content {
   width: 600px;
+  margin: 0 auto;
+}
+
+.container {
   height: 300px;
   border: 1px #000 solid;
-  margin: 0 auto;
 }
 
 .pile {
