@@ -19,3 +19,6 @@
 [submodule "javascript/backbone_journal"]
 	path = javascript/backbone_journal
 	url = git@github.com:whastings/backbone_journal.git
+[submodule "javascript/news_reader"]
+	path = javascript/news_reader
+	url = git@github.com:whastings/news_reader.git
