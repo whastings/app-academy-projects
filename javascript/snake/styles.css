@@ -1,7 +1,11 @@
+.content {
+  width: 375px;
+  margin: 0 auto;
+}
+
 .container {
   width: 375px;
   height: 375px;
-  margin: 0 auto;
 }
 
 .cell {
