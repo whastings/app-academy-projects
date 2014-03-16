@@ -22,3 +22,6 @@
 [submodule "javascript/news_reader"]
 	path = javascript/news_reader
 	url = git@github.com:whastings/news_reader.git
+[submodule "final_project"]
+	path = final_project
+	url = git@github.com:whastings/heapsort.io.git
