@@ -55,6 +55,7 @@
      return parseInt($(disk).css('bottom'));
     });
     var up = Math.max.apply(null, diskHeights) + 45;
+    oldDisk.addClass('animated');
     oldDisk.css({bottom: up + 'px'});
 
     performMove(oldDisk, 'bottom', up)

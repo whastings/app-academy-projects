@@ -1,22 +1,27 @@
+body {
+  background-color: #222;
+  color: #fff;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 .content {
   width: 600px;
   margin: 0 auto;
 }
 
-.container {
-  height: 300px;
-  border: 1px #000 solid;
-}
-
 .pile {
+  background-color: #999;
   width: 150px;
   height: 300px;
   float: left;
   margin-left: 35px;
   border: 1px #000 solid;
-  border-top: 0;
-  border-bottom: 0;
   position: relative;
+}
+
+.pile:hover {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px rgba(81, 203, 238, 1) solid;
 }
 
 .hidden {
@@ -30,6 +35,11 @@
   margin: 20px auto 0 auto;
   position: absolute;
   transition: bottom .5s linear, left .5s linear;
+  z-index: 1000;
+}
+
+.disk.animated {
+  background-color: #00FFFF;
 }
 
 .disk-0 {
@@ -62,4 +72,13 @@
 
 .order-2 {
   bottom: 95px;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
 }
