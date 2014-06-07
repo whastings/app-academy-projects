@@ -72,6 +72,6 @@ var UltraBook = newProto({
   }
 }, Computer);
 
-var ultraComputer = UltraBook.create(4096, 3.5, '1920x1080', 'SDD, webcam');
+var ultraComputer = UltraBook.create(4096, 3.5, '1920x1080', 'SSD, webcam');
 console.log(Object.getPrototypeOf(ultraComputer) === UltraBook);
 console.log(ultraComputer.stats());
