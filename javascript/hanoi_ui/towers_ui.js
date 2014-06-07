@@ -24,10 +24,11 @@
       var move = this.game.move(this.selectedPile, number);
       var $startPile = this.$piles.eq(this.selectedPile);
       if (move) {
-        this.moveDisk($startPile, $target);
-        if (this.game.isWon()){
-          alert("You Win!");
-        }
+        this.moveDisk($startPile, $target).then(function() {
+          if (this.game.isWon()){
+            alert("You Win!");
+          }
+        }.bind(this));
       } else {
         alert('Invalid Move');
       }
@@ -45,7 +46,9 @@
     disk.addClass('order-' + (pile.length - 1));
     disk.addClass('hidden');
     disk.prependTo($endPile);
-    this.animateMove(oldDisk, disk);
+    var deferred = $.Deferred();
+    this.animateMove(oldDisk, disk).then(deferred.resolve);
+    return deferred.promise();
   };
 
   TowersUI.prototype.animateMove = function(oldDisk, newDisk) {
@@ -55,7 +58,10 @@
      return parseInt($(disk).css('bottom'));
     });
     var up = Math.max.apply(null, diskHeights) + 45;
+    oldDisk.addClass('animated');
     oldDisk.css({bottom: up + 'px'});
+
+    var deferred = $.Deferred();
 
     performMove(oldDisk, 'bottom', up)
     .then(function() {
@@ -71,7 +77,9 @@
     .then(function() {
       newDisk.removeClass('hidden');
       oldDisk.remove();
+      deferred.resolve();
     });
+    return deferred.promise();
   };
 
   var performMove = function(element, property, amount) {
